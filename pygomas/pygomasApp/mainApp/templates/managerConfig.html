@@ -1,0 +1,15 @@
+{% extends 'index.html' %}
+
+{% block content %}
+<h1><center>Configuracion de manager</center></h1>
+<label for ="mapSelect">Seleccionar mapa</label>
+<select id = "mapSelect">
+    {% for option in options %}
+     <option value="{{ option }}">{{ option }}</option>
+    {% endfor %}
+</select>
+<br>
+<br>
+<label for = "numAgents">Numero de agentes</lablel>
+<input id = numAgents>
+{% endblock %}

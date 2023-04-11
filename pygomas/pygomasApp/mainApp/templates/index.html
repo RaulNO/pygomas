@@ -1,0 +1,26 @@
+<html>
+    {% load static %}
+<head>
+    <title>PYGOMAS</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css\style.css' %}">
+</head>
+<body>
+    <form method ="POST">
+         {% csrf_token %}
+        <center><h1>PYGOMAS</h1>
+        <p>
+            <a href="/jugando" class="nav">Jugar</a>
+        </p>
+        <p>
+            <a href="/managerConfig" class="nav">Cambiar mapa</a>
+        </p>
+        <p>
+            <a href="/agentConfig" class="nav">Añadir jugadores</a>
+        </p>
+    </center>
+    </form>
+{% block content %}
+{% endblock %}
+     
+</body>
+</html>
