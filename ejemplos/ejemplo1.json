@@ -1,7 +1,7 @@
 {
     "host": "desktop-5hmpkhv",
-    "manager": "manager",
-    "service": "service",
+    "manager": "cmanager",
+    "service": "cservice",
     "axis": [
         {
             "rank": "BDISoldier",

@@ -1,0 +1,39 @@
+{% extends 'onlinemode.html' %}
+{% load i18n %}
+{% load static %}
+
+{% block agent %}
+    <form method="POST" >
+        {% csrf_token %}
+        <div class = "sendManager-inputs-div">
+            <label for="NombreServer">{% trans "Nombre servidor"%}</label>
+            <input  type = "text" name="NombreServer" >
+            <br>
+            <label for="NombreManager">{% trans "Nombre de manager"%}</label>
+            <input  type = "text" name="NombreManager" >
+            <br>
+            <label for="NombreServicio">{% trans "Nombre de servicio"%}</label>
+            <input  type = "text" name="NombreServicio" >
+            <br>
+            <label  for="soldierName">{% trans "Nombre"%}</label>
+            <input  type = "text" name="soldierName" >
+            <br>
+            <label  for="team">{% trans "Mapa"%}</label>
+            <select  type = "text" name="team" >
+                <option value = "axis">Axis</option>
+                <option value = "allied">Allied</option>
+            </select>
+            <br>
+            <label  for="rank">{% trans "Rango"%}</label>
+            <select  type = "text" name="rank" >
+                <option value="BDIMedic">Medic</option>
+                <option value="BDIFieldOp">Field</option>
+                <option value="BDISoldier">Soldier</option>
+            </select>
+        </div>
+        <div class = sendManager-send-div>
+            <h1 class = "tit">SOLDIER</h1>
+            <button class="send-btn"type= "submit" name = "search">{%trans "Lanzar"%}</button>
+        </div>
+    </form>
+{% endblock %}

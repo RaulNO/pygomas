@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+{% load static %}
+{% load i18n %}
+
+<head>
+    <meta charset="UTF-8">
+    <title>{% trans "Mapa"%}</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css\createmap.css' %}">
+</head>
+
+<body onload = "checkElements()">
+    {% include 'language.html' %}
+    <form method="POST" id="form">
+        {% csrf_token %}
+    <div id="container">
+        <div id="div-select" class="div-select">
+            <select  class="map-selector" name="select-map" id="selected-map" >
+                <option value="" disabled selected>{%trans "Mapas"%}</option>
+                {% for option in options %}
+                <option class="map-list" value="{{ option }}">{{ option }}</option>
+                {% endfor %}
+            </select>
+            
+        </div>
+        <div class = "return-div">
+            <a class="return-btn" href="/pygomas/menu" class="button return">{% trans "Volver"%}</a>
+        </div>
+        <div>
+            <div class="map-name">
+                <label class = "name-map-label" for="map_name">{% trans "Nombre del mapa:" %}</label>
+                <input class="name-input" type="text" id="map_name" name="map_name" value = "{{map_name}}">
+            </div>
+            <table>
+                {% for row in map %}
+                <tr>
+                    {% for box in row %}
+                        {% if forloop.first or forloop.last or forloop.parentloop.first or forloop.parentloop.last %}
+                            <td class="box{% if box.get_has_wall %} has-wall{% endif %}{% if box.get_has_flag %} has-flag{% endif %}{% if box.get_has_axisSpawn %} has-axis{% endif %}{% if box.get_has_alliedSpawn %} has-allied{% endif %}">
+                                <input type="hidden" name="{{ forloop.parentloop.counter0 }}-{{ forloop.counter0 }}" value="{% if box.get_has_wall %}wall{% elif box.get_has_flag %}flag{% elif box.get_has_axisSpawn %}axis{% elif box.get_has_alliedSpawn %}allied{% endif %}">
+                            </td>
+                        {% else %}
+                            <td class="box{% if box.get_has_wall %} has-wall{% endif %}{% if box.get_has_flag %} has-flag{% endif %}{% if box.get_has_axisSpawn %} has-axis{% endif %}{% if box.get_has_alliedSpawn %} has-allied{% endif %}" name="coords">
+                                <input type="hidden" name="{{ forloop.parentloop.counter0 }}-{{ forloop.counter0 }}" value="{% if box.get_has_wall %}wall{% elif box.get_has_flag %}flag{% elif box.get_has_axisSpawn %}axis{% elif box.get_has_alliedSpawn %}allied{% endif %}">
+                            </td>
+                        {% endif %}
+                    {% endfor %}
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+        <div id="buttons-container">
+            <button type= "button"id="add-wall-button" class="toggle-button" value="wall">{%trans "Añadir pared"%}</button>
+            <button type= "button"id="add-flag-button" class="toggle-button" value="flag">{%trans "Añadir bandera"%}</button>
+            <button type= "button"id="add-spawn-axis-button" class="toggle-button" value="axis">{%trans "Añadir zona de aparicion de Eje"%}</button>
+            <button type= "button"id="add-spawn-allied-button" class="toggle-button" value="allied">{%trans "Añadir zona de aparicion de Aliados"%}</button>
+            <button type= "button"id="delete-element-button" class="toggle-button" value="box">{%trans "Borrar elemento"%}</button>
+        
+            <div id="buttons-container-extra">
+                <button type= "sumbit" id="loadMap" name = "action-button" value="loadMap">{% trans "Cargar Mapa"%}</button>
+                <button type="submit"  id="saveMap" name="action-button" value="saveMap">{% trans "Guardar Mapa"%}</button>
+                <button type="sumbit" id="assignMap" name = "action-button" value = "assignMap">{%trans "Asignar Mapa"%}</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="{% static 'js\scriptsMap.js' %}"></script>
+</form>
+</body>
+
+</html>

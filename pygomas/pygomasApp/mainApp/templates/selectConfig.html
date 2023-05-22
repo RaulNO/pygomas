@@ -1,0 +1,21 @@
+{% extends 'home.html' %}
+{% load i18n %}
+{% load static %}
+
+{% block select %}
+    <form method="POST" class="form-select">
+        {% csrf_token %}
+        <div class="form-group">
+            <label class = "create-label" for="ConfigName">{% trans "Nombre de partida" %}</label>
+        <select name="ConfigName" class="select-input" required>
+                <option value="" class="">{{ save }}</option>
+            {% for save in saves %}
+                <option value="{{ save }}" class="select-option">{{ save }}</option>
+            {% endfor %}
+        </select>
+        <button type="submit" class="button create">{% trans "Seleccionar" %}</button>
+    </div>
+
+    </form>
+{% endblock %}
+

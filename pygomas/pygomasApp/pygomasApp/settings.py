@@ -1,4 +1,5 @@
 import os
+from django.urls import reverse_lazy
 """
 
 Django settings for pygomasApp project.
@@ -14,8 +15,10 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 
 from pathlib import Path
 
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+print("Esto es la dir de settings-->" + str(BASE_DIR))
 
 
 # Quick-start development settings - unsuitable for production
@@ -28,6 +31,7 @@ SECRET_KEY = 'django-insecure-k)&8s8g74u5kzbcq115izwg#&$(lr6sbc1#v84p3ofx9^6ucj=
 DEBUG = True
 
 ALLOWED_HOSTS = []
+
 
 
 # Application definition
@@ -43,12 +47,14 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'pygomasApp.LanguageMiddleware.LanguageMiddleware',
 ]
 
 ROOT_URLCONF = 'pygomasApp.urls'
@@ -64,6 +70,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                
             ],
         },
     },
@@ -71,6 +78,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'pygomasApp.wsgi.application'
 
+DATA_UPLOAD_MAX_NUMBER_FIELDS = 2000
 
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
@@ -104,8 +112,18 @@ AUTH_PASSWORD_VALIDATORS = [
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
+from django.utils.translation import ugettext_lazy as _
+LANGUAGES = [
+    ('en', 'English'),
+    ('es', 'Español'),
+]
 
-LANGUAGE_CODE = 'en-us'
+# Configura la ubicación de los archivos de traducción
+LOCALE_PATHS = [
+    os.path.join(BASE_DIR, 'locale'),
+]
+
+LANGUAGE_CODE = 'es'
 
 TIME_ZONE = 'UTC'
 
@@ -117,7 +135,9 @@ USE_TZ = True
 
 
 # Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/3.2/howto/static-files/
+
+DEFAULT_URL_REDIRECT = reverse_lazy('home')
+
 
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [ os.path.join(BASE_DIR,'pygomasApp/static') ]
@@ -127,3 +147,8 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'assets')
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+
+
+

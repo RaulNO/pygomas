@@ -1,0 +1,19 @@
+{% extends 'menu.html' %}
+{% load i18n %}
+{% load static %}
+{% block content %}
+
+    <div class="onlinemode-div">
+        <div class="onlinemode-selector">
+            <a href="/pygomas/menu/onlinemode/sendManager">{% trans "Manager" %}</a>
+            <a href="/pygomas/menu/onlinemode/sendSoldier">{% trans "Soldados" %}</a>
+            <a href="/pygomas/menu/onlinemode/sendRender">{% trans "Render" %}</a>
+        </div>
+
+        <div  class="onlinemode-form">
+            {% block agent %}
+            {% endblock %}
+        </div>
+    </div>
+    
+{% endblock %}

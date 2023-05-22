@@ -200,7 +200,7 @@ class Manager(AbstractAgent, Agent):
                 logger.success(
                     "Manager (Expected Agents): {}".format(self.agent.max_total_agents)
                 )
-
+                
                 # for i in range(1, self.agent.max_total_agents + 1):
                 while self.agent.number_of_agents < self.agent.max_total_agents:
                     msg = await self.receive(timeout=LONG_RECEIVE_WAIT)

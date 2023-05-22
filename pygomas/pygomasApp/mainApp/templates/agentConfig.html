@@ -1,50 +1,55 @@
-{% extends 'index.html' %}
-
+{% extends 'menu.html' %}
+{% load i18n %}
+{% load static %}
 {% block content %}
-<form method="POST">
+<form method="POST" class="agentForm">
     {% csrf_token %}
-<h1> Configuracion de agentes</h1>
-    <label for="players">Numero de jugadores por equipo</label> 
-    <input  name = "players" id="players" type="number" max = "20" min = "1" value="{{number}}" >
-    <button type = "submit" id = saveNumberOfPlayers name= "saveNumberOfPlayers" value="saveButton">Confirmar</button>
+<h1 class = "agentTitle"> Configuracion de agentes</h1>
+    <label for="players" class= "agentLabel">Numero de jugadores por equipo</label> 
+    <input class="numPlayers" name = "players" id="players" type="number" max = "20" min = "1" value="{{number}}" required>
+    <button class = "btnConfirm" type = "submit" id = saveNumberOfPlayers name= "saveNumberOfPlayers" value="saveButton">Confirmar</button>
     <br>
-    
+    <div class="mainDivAgents">
         <div class="agentDiv">
-
-            <label>AXIS TEAM</label>
+          {% if playerNumber|length > 0 %}
+            <label class="team">AXIS TEAM</label>
             <br>
             {% for i in playerNumber %}
-            <label for="AxisName{{i}}">Name: </label>
-            <input type= "text" value= "" name = "AxisName{{i}}" id = "AxisName{{i}}">
+              <label for="AxisName{{i}}">{%trans "Name:"%}</label>
+              <input type="text" value="" name="AxisName{{i}}" id="AxisName{{i}}">
+              <label for="AxisRank{{i}}">{%trans "Rango:"%}</label>
+              <select name="AxisRank{{i}}" id="AxisRank{{i}}">
+                <option value="BDIMedic">Medic</option>
+                <option value="BDIFieldOp">Field</option>
+                <option value="BDISoldier">Soldier</option>
+              </select>
+              <br>
+            {% endfor %}
+          {% else %}
             
-            <label for="AxisRank{{i}}">Rank: </label>
-            <select name="AxisRank{{i}}" id = "AxisRank{{i}}">
-                <option value="medic">Medic</option>
-                <option value="field">Field</option>
-                <option value="soldier">Soldier</option>
-            </select>
-            <br>
-            {% endfor %}
+          {% endif %}
         </div>
-        <br>
-        <div class="agentDiv"> 
-
-            <label>ALLIED TEAM</label>
+        <div class="agentDiv">
+          {% if playerNumber|length > 0 %}
+            <label class="team">ALLIED TEAM</label>
             <br>
             {% for i in playerNumber %}
-            <label for="AlliedName{{i}}">Name: </label>
-            <input type= "text" value= "" name = "AlliedName{{i}}" id = "AlliedName{{i}}">
-                
-            <label for="AlliedRank{{i}}">Rank: </label>
-            <select  name = "AlliedRank{{i}}" id="AlliedRank{{i}}">
-                <option value="medic">Medic</option>
-                <option value="field">Field</option>
-                <option value="soldier">Soldier</option>
-            </select>
-            <br>
+              <label for="AlliedName{{i}}">{%trans "Nombre:"%} </label>
+              <input type="text" value="" name="AlliedName{{i}}" id="AlliedName{{i}}">
+              <label for="AlliedRank{{i}}">{%trans "Rango:"%} </label>
+              <select name="AlliedRank{{i}}" id="AlliedRank{{i}}">
+                <option value="BDIMedic">Medic</option>
+                <option value="BDIFieldOp">Field</option>
+                <option value="BDISoldier">Soldier</option>
+              </select>
+              <br>
             {% endfor %}
+          {% else %}
+           
+          {% endif %}
         </div>
+      </div>
     
-    <button type= "submit" name = "search">Guardar</button>
+    <button class="btnSave"type= "submit" name = "search">Guardar</button>
 </form>
 {% endblock %}

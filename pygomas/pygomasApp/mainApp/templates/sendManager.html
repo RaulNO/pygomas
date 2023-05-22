@@ -1,0 +1,40 @@
+{% extends 'onlinemode.html' %}
+{% load i18n %}
+{% load static %}
+
+{% block agent %}
+    <form method="POST" >
+        {% csrf_token %}
+        <div class = "sendManager-inputs-div">
+            <label for="NombreServer">{% trans "Nombre servidor"%}</label>
+            <input  type = "text" name="NombreServer" >
+            <br>
+            <label for="NombreManager">{% trans "Nombre de manager"%}</label>
+            <input  type = "text" name="NombreManager" >
+            <br>
+            <label for="NombreServicio">{% trans "Nombre de servicio"%}</label>
+            <input  type = "text" name="NombreServicio" >
+            <br>
+            <label  for="Puerto">{% trans "Puerto"%}</label>
+            <input type = 'number' name="Puerto" >
+            <br>
+            <label  for="Njugadores">{% trans "Numero de jugadores"%}</label>
+            <input type = 'number' name="Njugadores" >
+            <br>
+            <label  for="matchTime">{% trans "Tiempo de partida"%}</label>
+            <input type = 'number'  name="matchTime" >
+            <br>
+            <label  for="mapName">{% trans "Mapa"%}</label>
+            <select  name="mapName">
+                <option value="" disabled selected></option>
+                {% for option in options %}
+                <option class="map-list" value="{{ option }}">{{ option }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class = sendManager-send-div>
+            <h1 class = "tit">MANAGER</h1>
+            <button class="send-btn"type= "submit" name = "search">{%trans "Lanzar"%}</button>
+        </div>
+    </form>
+{% endblock %}

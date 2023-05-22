@@ -1,0 +1,16 @@
+{% extends 'onlinemode.html' %}
+{% load i18n %}
+{% load static %}
+{% block agent %}
+    <form method="POST" >
+        {% csrf_token %}
+        <div class = "sendManager-inputs-div">
+            <label for="NombreServer">{% trans "Nombre servidor"%}</label>
+            <input  type = "text" name="NombreServer" >    
+        </div>
+        <div class = sendManager-send-div>
+            <h1 class = "tit">RENDER</h1>
+            <button class="send-btn"type= "submit" name = "search">{%trans "Lanzar"%}</button>
+        </div>
+    </form>
+{% endblock %}

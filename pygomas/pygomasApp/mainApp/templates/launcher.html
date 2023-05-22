@@ -1,0 +1,23 @@
+{% extends 'menu.html' %}
+{% load i18n %}
+{% load static %}
+{% block content %}
+<form method="POST" class="container-home">
+    {% csrf_token %}
+    <div class = "crearPartidaDiv">
+        <div>
+            <label for="manager">Manager: ({{data_game.MANAGER}})</label>
+            <input type="checkbox" name="manager" value="manager">
+        </div>  
+        <div>
+            <label for="soldiers">{%trans "Soldados"%}: ({{data_game.AGENTS}})</label>
+            <input type="checkbox" name="soldiers" value="soldiers">
+        </div> 
+        <div>
+            <label for="render">Render: ({{data_game.MAP_NAME}})</label>
+            <input type="checkbox" name="render" value="render">
+        </div>
+            <button type= "submit" name = "init" class="btnStartGame">Lanzar partida</button>
+    </div>
+</form>
+{% endblock %}
