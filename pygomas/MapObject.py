@@ -1,4 +1,4 @@
-from mainApp.box import Box;
+from box import Box;
 import os
 class Map:
 
@@ -101,7 +101,7 @@ class Map:
         flagCoords = self.get_flag_coords()
         matrix = self.get_map()
         
-        dir_path = "../maps/" + map_name
+        dir_path = "maps/" + map_name
         os.makedirs(dir_path, exist_ok=True)
         new_map = open(os.path.join(dir_path, map_name + '_cost.txt'), 'w')
 
@@ -123,7 +123,7 @@ class Map:
 
 
     def loadMap(self, map_name):
-        with open(f"../maps/{map_name}/{map_name}_cost.txt") as f:
+        with open(f"maps/{map_name}/{map_name}_cost.txt") as f:
             lines = f.readlines()
             for y, line in enumerate(lines):
                 for x, char in enumerate(line.strip()):
@@ -132,7 +132,7 @@ class Map:
                     else:
                         self.clearBox(y,x)
 
-        with open(f"../maps/{map_name}/{map_name}.txt") as f:
+        with open(f"maps/{map_name}/{map_name}.txt") as f:
             lines = f.readlines()
             for line in lines:
                 if line.strip().startswith("pGomas_OBJECTIVE"):

@@ -1,0 +1,165 @@
+.div-main{
+    width: 100%;
+    height: 100vh; /* Ocupa toda la altura de la ventana */
+    display: flex;
+    flex-direction: column;
+}
+.div-tablas{
+    display: flex;
+    height: 100%;
+    margin: 10px;
+}
+.div-allied{
+    margin:10px;
+    flex:1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.div-axis{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin:10px;
+    flex:1;
+}
+.div-return{
+    margin: 10px;
+    height: 10%;
+}
+.div-alliedtable{
+    width: 65%;
+    height: 80%;
+    border: solid  #FF3E3E 3px;
+    border-radius: 5px;
+    background-color: #FF8F8F;
+    overflow-y: auto;
+    box-shadow: 0 0 10px rgba(228, 25, 25, 0.636) 
+}
+.div-axistable{
+    width: 65%;
+    height: 80%;
+    background-color: #85C1E9;
+    border-radius: 5px;
+    border: solid  #2E86C1 3px;
+    overflow-y: auto;
+    box-shadow: 0 0 10px rgba(64, 150, 249, 0.774) 
+}
+
+.axis-title{
+    width: 100%;
+    height: 70px;
+    background-color: #2E86C1;
+    color: #333;
+    font-weight: bold;
+    font-size:xx-large;
+    
+    
+}
+
+.allied-title{
+    width: 100%;
+    height: 70px;
+    background-color:  #FF3E3E;
+    color: #333;
+    font-weight: bold;
+    font-size:xx-large;
+    
+}
+
+
+table{
+    width: 100%;
+    text-align: center;
+    border-collapse: separate;
+    border-spacing: 0;
+}
+tbody tr td{
+    border: solid transparent 5px;
+}
+
+.filas{
+    display: flex;
+}
+
+.status{
+    width: 5%;
+}
+
+.name{
+    width: 65%;
+    align-items: center;
+}
+
+.input{
+    width: 30%;
+}
+
+.status img{
+    max-width: 100%;
+    max-height: 100%;
+}
+
+.div-alliedtable::-webkit-scrollbar {
+    width: 10px; 
+    border-radius: 5px;
+  }
+  
+
+.div-alliedtable::-webkit-scrollbar-thumb {
+    background-color: #FFC0C0;
+    border-radius: 5px;
+}
+  
+.div-alliedtable::-webkit-scrollbar-track {
+    background-color: white;
+    border-radius: 5px;
+}
+
+.div-axistable::-webkit-scrollbar {
+    width: 10px; 
+    border-radius: 5px;
+  }
+  
+
+.div-axistable::-webkit-scrollbar-thumb {
+    background-color: #B7D8E8;
+    border-radius: 5px;
+}
+  
+.div-axistable::-webkit-scrollbar-track {
+    background-color: white;
+    border-radius: 5px;
+}
+
+a {
+    display: inline-block;
+    padding: 10px;
+    margin: 10px;
+    border: 2px solid #222;
+    background-color: #444;
+    border-color: #444;
+    border-radius:8px;
+    color:#fff;
+    font-size: 1.2em;
+    text-align: center;
+    text-decoration: none;
+    width: 100px;
+    transition: all 0.3s ease;
+    position:fixed;
+    bottom:0;
+    right:0;
+  
+  }
+
+  a:hover {
+    background-color: #CECECE;
+    color: #222;
+    border-color:#CECECE;
+    
+  }
+
+  input{
+    width: 70%;
+  }
+

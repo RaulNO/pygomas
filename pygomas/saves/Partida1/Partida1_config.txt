@@ -1,0 +1,8 @@
+SERVER: desktop-5hmpkhv
+MAP_NAME: map_09
+NUM_PLAYERS: 12
+AGENTS: ejemplo1
+MANAGER: manager
+SERVICE: service
+PORT: 8001
+TIME: 100000

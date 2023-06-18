@@ -1,0 +1,6 @@
+[pGomas]
+pGomas_OBJECTIVE: 5 6
+pGomas_SPAWN_ALLIED: 4 6 4 6
+pGomas_SPAWN_AXIS: 3 6 3 6
+pGomas_COST_MAP: 32 32 TEST MAP2_cost.txt
+[pGomas]

@@ -1,6 +1,5 @@
 from django.shortcuts import render, redirect
 import os
-from mainApp.executeGame import ExecuteGame;
 import json
 import fileinput
 import subprocess
@@ -9,11 +8,11 @@ import time
 
 def rellenarMapSelect():
     # Obtener nombres de las carpetas en la carpeta "maps"
-    maps_dir = os.listdir("../maps")
+    maps_dir = os.listdir("maps")
     return maps_dir
 
-def obtenerSaves():
-    saves = os.listdir("../saves")
+def obtenerSaves(): 
+    saves = os.listdir("saves")
     return saves
 
 def launchLocal(save,agent):
@@ -29,48 +28,53 @@ def launchLocal(save,agent):
     service = params["SERVICE"]
     port = params["PORT"]
     LimitTime = params["TIME"]
-    
+    current_dir = os.getcwd()
+    maps_path = os.path.join(current_dir, 'maps')
 
     if (agent == 'manager'):
-        comandoManager = 'pygomas manager -j ' + manager + '@' +server+ ' -m '+ map_name +' -mp ../maps/ -sj ' + service + '@' + server + ' -np ' + str(numPlayers) + ' --port ' + port + ' -t ' + LimitTime
+        comandoManager = 'pygomas manager -j ' + manager + '@' +server+ ' -m '+ map_name +' -mp ' + maps_path + ' -sj ' + service + '@' + server + ' -np ' + str(numPlayers) + ' --port ' + port + ' -t ' + LimitTime
         subprocess.Popen(['cmd.exe', '/k', comandoManager])
-        time.sleep(20)
+        time.sleep(5)
 
-    if (agent == 'render'): ##Se puede añadir puerto y direccion del manager
-       comandoVista = 'pygomas render --maps ../maps/ --ip ' + server
+    if (agent == 'render'): 
+       comandoVista = 'pygomas render --maps maps --ip ' + server
        subprocess.Popen(['cmd.exe', '/k', comandoVista])  
-
+       
     if (agent == 'soldiers'):
-        comandoAgentes = 'cd ../../ejemplos & pygomas run -g' + agents + '.json -mp ../pygomas/maps'  
+        print("Se van a lanzar los soldiers...")
+        comandoAgentes = 'cd ejemplos & pygomas run -g ' + agents + '.json -mp ../maps/ & cd ..'  
         subprocess.Popen(['cmd.exe', '/k', comandoAgentes])
 
-def launchManagerOnline(request):
-    manager = request.POST.get("NombreManager")
-    server = request.POST.get("NombreServer")
-    map_name = request.POST.get("mapName")
-    service = request.POST.get("NombreServicio")
-    numPlayers = request.POST.get("Njugadores")
-    port = request.POST.get("Puerto")
-    LimitTime = request.POST.get("matchTime")
+def launchManagerOnline(formData):
+    manager = formData.get("NombreManager")
+    server = formData.get("NombreServer")
+    map_name = formData.get("map_name")
+    service = formData.get("NombreServicio")
+    numPlayers = formData.get("Njugadores")
+    port = formData.get("Puerto")
+    LimitTime = formData.get("matchTime")
+    current_dir = os.getcwd()
+    maps_path = os.path.join(current_dir, 'maps')
     
-    comandoManager = 'pygomas manager -j ' + manager + '@' +server+ ' -m '+ map_name +' -mp ../maps/ -sj ' + service + '@' + server + ' -np ' + str(numPlayers) + ' --port ' + port + ' -t ' + LimitTime
+    comandoManager = 'pygomas manager -j ' + manager + '@' +server+ ' -m '+ map_name + ' -mp ' + str(maps_path) + ' -sj ' + service + '@' + server + ' -np ' + str(numPlayers) + ' --port ' + port + ' -t ' + LimitTime
     subprocess.Popen(['cmd.exe', '/k', comandoManager])
 
 def launchSoldierOnline():
-
-    comandoAgentes = 'cd ../../ejemplos & pygomas run -g temp.json -mp ../pygomas/maps'  
+    comandoAgentes = 'cd ejemplos & pygomas run -g temp.json -mp ../maps & cd ..'  
     subprocess.Popen(['cmd.exe', '/k', comandoAgentes])   
 
-def launchRenderOnline(request):
-    name = request.POST.get("NombreServer")
-    comandoVista = 'pygomas render --maps ../maps/ --ip ' + name
+def launchRenderOnline(formData):
+    name = formData.get("NombreServer")
+    comandoVista = 'pygomas render --maps maps --ip ' + name
     subprocess.Popen(['cmd.exe', '/k', comandoVista])  
   
 def createConfigFolder(configName):
-    folderPath = os.path.abspath(os.path.join(os.path.dirname(__file__), '../..', 'saves', configName))
-    if not os.path.exists(folderPath):
-        os.makedirs(folderPath)
-    filePath = os.path.join(folderPath, f"{configName}_config.txt")
+    print("CREANDO PARTIDA...")
+    currentPath = os.path.dirname(os.path.abspath(__file__))
+    relativePath = os.path.join(currentPath, "saves", configName)
+    if not os.path.exists(relativePath):
+        os.makedirs(relativePath)
+    filePath = os.path.join(relativePath, f"{configName}_config.txt")
     with open(filePath, 'w') as f:
         f.write("SERVER: desktop-5hmpkhv\n")
         f.write("MAP_NAME: map_01\n")
@@ -79,9 +83,9 @@ def createConfigFolder(configName):
         f.write("MANAGER: cmanager\n")
         f.write("SERVICE: cservice\n")
         f.write("PORT: 8001\n")
-        f.write("TIME: 60\n")
+        f.write("TIME: 300\n")
 
-def createJSONAgents(request, executeGame):
+def createJSONAgents(request, executeGame): 
     cont = 0
     AxisAgents = []
     AxisAgent = {}
@@ -127,17 +131,16 @@ def createJSONAgents(request, executeGame):
     
     if(AlliedAgents != [] and AxisAgents != []):
         jsonFinal = executeGame.createJSON(mainJSON)
-        print("Numplayers: " + str(cont))
         executeGame.set_agents(jsonFinal)
         executeGame.set_numPlayers(cont)
 
-def createJson(request):
-     host = request.POST.get("NombreServer")
-     manager = request.POST.get("NombreManager")
-     service = request.POST.get("NombreServicio")
-     team = request.POST.get("team")
-     soldierName = request.POST.get("soldierName")
-     rank = request.POST.get("rank")
+def createJson(formData):
+     host = formData.get("NombreServer")
+     manager = formData.get("NombreManager")
+     service = formData.get("NombreServicio")
+     team = formData.get("team")
+     soldierName = formData.get("soldierName")
+     rank = formData.get("rank")
      soldier = [{
          "rank": rank,
          "name": soldierName,
@@ -151,15 +154,15 @@ def createJson(request):
     }
      
      json_string = json.dumps(jsonData)
-     with open('../../ejemplos/temp.json', 'w') as archivo:
+     with open('ejemplos/temp.json', 'w') as archivo:
          archivo.write(json_string)
         
 
-def buildMap(map, request):
+def buildMap(map, formData):
 
     for i in range(32):
         for j in range(32):
-            boxContent = request.get(str(i) + '-' + str(j))
+            boxContent = formData.get(str(i) + '-' + str(j))
             
             if(boxContent == 'wall'):
                 map.setWallToBox(i,j)
@@ -175,9 +178,10 @@ def buildMap(map, request):
     return map
 
 def assignMap(save, map_name):
-    folderPath = os.path.abspath(os.path.join(os.path.dirname(__file__), '../..', 'saves', save))
+    currentPath = os.path.dirname(os.path.abspath(__file__))
+    relativePath = os.path.join(currentPath, "saves", save)
 
-    config_file = os.path.join(folderPath, save + '_config.txt')
+    config_file = os.path.join(relativePath, save + '_config.txt')
 
     with fileinput.FileInput(config_file, inplace=True) as file:
         for line in file:
@@ -187,9 +191,9 @@ def assignMap(save, map_name):
                 print(line, end='')
 
 def getDataGame(save):
-    print("SavE IS " + save)
-    folderPath = os.path.abspath(os.path.join(os.path.dirname(__file__), '../..', 'saves', save))
-    config_file = os.path.join(folderPath, save + '_config.txt') 
+    currentPath = os.path.dirname(os.path.abspath(__file__))
+    relativePath = os.path.join(currentPath, "saves", save)
+    config_file = os.path.join(relativePath, save + '_config.txt') 
 
     with open(config_file, 'r') as f:
         lines = f.readlines()
@@ -200,7 +204,6 @@ def getDataGame(save):
         key, value = line.strip().split(': ')
         data[key] = value
 
-    print(data)
     server = data['SERVER']
     map_name = data['MAP_NAME']
     num_players = int(data['NUM_PLAYERS'])
@@ -222,25 +225,25 @@ def getDataGame(save):
         ##"SERVER" : server
     }
 
-def configurarManager(save, request):
+def configurarManager(save, formData):
 
-    folderPath = os.path.abspath(os.path.join(os.path.dirname(__file__), '../..', 'saves', save))
-
-    config_file = os.path.join(folderPath, save + '_config.txt')
+    currentPath = os.path.dirname(os.path.abspath(__file__))
+    relativePath = os.path.join(currentPath, "saves", save)
+    config_file = os.path.join(relativePath, save + '_config.txt')
 
     with fileinput.FileInput(config_file, inplace=True) as file:
         for line in file:
             if line.startswith('SERVER'):
-                print('SERVER: {}'.format(request.POST.get('NombreServer')))
+                print('SERVER: {}'.format(formData.get('NombreServer')))
             elif line.startswith('MANAGER'):
-                print('MANAGER: {}'.format(request.POST.get('NombreManager')))
+                print('MANAGER: {}'.format(formData.get('NombreManager')))
             elif line.startswith('SERVICE'):
-                print('SERVICE: {}'.format(request.POST.get('NombreServicio')))
+                print('SERVICE: {}'.format(formData.get('NombreServicio')))
             elif line.startswith('PORT'):
-                print('PORT: {}'.format(request.POST.get('Puerto')))
+                print('PORT: {}'.format(formData.get('Puerto')))
             elif line.startswith('NUM_PLAYERS'):
-                print('NUM_PLAYERS: {}'.format(request.POST.get('Njugadores')))
+                print('NUM_PLAYERS: {}'.format(formData.get('Njugadores')))
             elif line.startswith('TIME'):
-                print('TIME: {}'.format(request.POST.get('matchTime')))
+                print('TIME: {}'.format(formData.get('matchTime')))
             else:
                 print(line, end='')

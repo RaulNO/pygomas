@@ -1,41 +1,45 @@
 {
     "host": "desktop-5hmpkhv",
-    "manager": "cmanager",
-    "service": "cservice",
+    "manager": "manager",
+    "service": "service",
     "axis": [
         {
             "rank": "BDISoldier",
-            "name": "soldier_axis333",
-            "password": "secret"
+            "name": "soldierAxis",
+            "password": "secret",
+			"amount": 2
         },
         {
             "rank": "BDIMedic",
-            "name": "medic_axis333",
+            "name": "medixAxis",
             "password": "secret",
 			"amount": 2
         },
         {
             "rank": "BDIFieldOp",
-            "name": "fieldops_axis333",
-            "password": "secret"
+            "name": "fieldAxis",
+            "password": "secret",
+            "amount": 2
         }
     ],
     "allied": [
         {
             "rank": "BDISoldier",
-            "name": "soldier_allied333",
-            "password": "secret"
+            "name": "soldierAllied",
+            "password": "secret",
+            "amount": 2
         },
         {
             "rank": "BDIMedic",
-            "name": "medic_allied333",
+            "name": "medicAllied",
             "password": "secret",
             "amount": 2
         },
         {
             "rank": "BDIFieldOp",
-            "name": "fieldops_allied333",
-            "password": "secret"
+            "name": "fieldAllied",
+            "password": "secret",
+            "amount": 2
         }
     ]
 }
