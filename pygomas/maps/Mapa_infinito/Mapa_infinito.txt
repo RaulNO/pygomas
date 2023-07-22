@@ -1,6 +1,0 @@
-[pGomas]
-pGomas_OBJECTIVE: 15 27
-pGomas_SPAWN_ALLIED: 12 1 19 5
-pGomas_SPAWN_AXIS: 1 27 4 30
-pGomas_COST_MAP: 32 32 Mapa_infinito_cost.txt
-[pGomas]

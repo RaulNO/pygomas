@@ -1,6 +1,6 @@
 <html>
     <head>
-        <link rel="stylesheet" type="text/css" href="/static/css/style.css">
+        <link rel="stylesheet" type="text/css" href="/static/css/home.css">
         <script>
             function hideForm(formType) {
                 var createForm = document.getElementsByName("createGame")[0];
@@ -21,37 +21,41 @@
         </style>
     </head>
     <body>
-        <div class="container-home">
+
+        <div class="div-main">
+
             <h1 class="logo">PYGOMAS</h1>
-            <div class="menu">
-            <center>
-                <a class="button" onclick="hideForm('create')">Nueva partida</a>
-        
-                 <a class="button" onclick="hideForm('load')">Cargar partida</a>
-            </center>
-                    <!--Aqui habia un bloque django-->
-            <form  style="display:none" method="POST" class="form-select" name = "createGame">
-                <div class="form-group">
-                    <label class = "create-label" for="config-name">Nombre de partida</label>
-                    <input class="create-input" type="text" name="GameName" id="config-name" required>
-                    <button type="submit" class="button create" name="button" value = "createGame">Crear</button>
-                </div>
-            </form>
+  
+            <a class="button-home" onclick="hideForm('create')">Nueva partida</a>
+            <a class="button-home" onclick="hideForm('load')">Cargar partida</a>
+                
+            <div style = "display:none" class = "div-children" name = "createGame">
+                <form  method="POST" name = "createGame">
+                    <div>
+                        <label class = "create-label" for="config-name">Nombre de partida</label>
+                        <br>
+                        <input class="input-form" type="text" name="GameName" id="config-name" required>
+                        <button type="submit" class="button-form" name="button" value = "createGame">Crear</button>
+                    </div>
+                </form>
+            </div>
 
-            <form style="display:none" method="POST" class="form-select" name = "loadGame">
-                <div class="form-group">
-                    <label class = "create-label" for="ConfigName">Nombre de partida</label>
-                    <select name="GameName" class="select-input" required>
-                         <option value="" class="">{{ save }}</option>
-                        {% for save in saves %}
-                        <option value="{{ save }}" class="select-option">{{ save }}</option>
-                        {% endfor %}
-                    </select>
-                    <button type="submit" name="button" value="loadGame" class="button create">Seleccionar</button>
-                </div>    
-            </form>
+            <div style = "display:none" class = "div-children" name = "loadGame">
+                <form method="POST" name = "loadGame">
+                    <div>
+                        <label class = "create-label" for="ConfigName">Nombre de partida</label>
+                        <br>
+                        <select name="GameName" class="input-form" required>
+                            <option value="" class="">{{ save }}</option>
+                            {% for save in saves %}
+                            <option value="{{ save }}" class="select-option">{{ save }}</option>
+                            {% endfor %}
+                        </select>
+                        <button type="submit" name="button" value="loadGame" class="button-form">Seleccionar</button>
+                    </div>    
+                </form>
+            </div>  
 
-    </div>
-</div>
-</body>
+        </div>
+    </body>
 </html>

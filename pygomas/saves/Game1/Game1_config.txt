@@ -1,0 +1,8 @@
+SERVER: desktop-5hmpkhv
+MAP_NAME: default
+NUM_PLAYERS: 12
+AGENTS: ejemplo1
+MANAGER: cmanager
+SERVICE: cservice
+PORT: 8001
+TIME: 300

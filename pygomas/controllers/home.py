@@ -1,16 +1,17 @@
 import urllib.parse
 import asyncio
 from functions import *
-from executeGame import ExecuteGame;
-from MapObject import Map;
+from executeGame import ExecuteGame
+from MapObject import Map
 from aiohttp import web
 
 executeGame = ExecuteGame()
 map = Map()
 mainSave = ""
-initAlliedSoldiers = ""
-initAxisSoldiers = ""
-firstLoad = True;
+# Crear una instancia del controlador ChromeDriver
+
+
+
 
 async def home(request):
     global mainSave
@@ -82,8 +83,7 @@ async def menu(request, launcher):
                 launchLocal(mainSave, renderI)
         
         elif(formName=='monitorize'):
-            print("Monitorizando...")
-
+            
             launcher.soldiers = launcher.getSoldiers()
 
             launcher.soldiers.serviceName = formData.get('spectatedService')
@@ -150,24 +150,42 @@ async def createMap(request):
     return context
 
 async def monitorizar(request, launcher):
-    global initAlliedSoldiers, initAxisSoldiers, firstLoad
-    if(firstLoad):
-        print(firstLoad)
-        firstLoad = False;
-        ##Lista inicial de soldados (todos vivos) solo se ejecuta una vez
+    global mainSave
+    
+    if request.method == 'GET':
         initAlliedSoldiers = launcher.soldiers.resultAllied
         initAxisSoldiers = launcher.soldiers.resultAxis
-        ##Listas actualizables
-        alliedSoldiers = launcher.soldiers.resultAllied
-        axisSoldiers = launcher.soldiers.resultAxis
-        return {'alliedSoldiers':alliedSoldiers, 'axisSoldiers': axisSoldiers,'initAlliedSoldiers':initAlliedSoldiers,'initAxisSoldiers':initAxisSoldiers, 'firstLoad':'true'}
-    else:
-        print(firstLoad)
-
-        alliedSoldiers = launcher.soldiers.resultAllied
-        axisSoldiers = launcher.soldiers.resultAxis
-        return {'alliedSoldiers':alliedSoldiers, 'axisSoldiers': axisSoldiers,'initAlliedSoldiers':initAlliedSoldiers,'initAxisSoldiers':initAxisSoldiers, 'firstLoad':'false'}
+        return {'initAlliedSoldiers':initAlliedSoldiers,'initAxisSoldiers':initAxisSoldiers}
     
+    elif request.method == 'POST':
+        dataGame = getDataGame(mainSave) 
+        print("Boton de stop pulsado!")
+        print(dataGame["MANAGER"])
+        print(dataGame["SERVER"])
+        launcher.killManager = launcher.stopGame()
+        launcher.killManager.manager = dataGame["MANAGER"]
+        launcher.killManager.XMPPServer = dataGame["SERVER"]
+        launcher.add_behaviour(launcher.killManager)
+        print("Manager detenido")
+        raise web.HTTPFound("/pygomas/menu") 
+
+   
+async def getAgentList(request, launcher):
+    axisSoldiers = launcher.soldiers.resultAxis
+    alliedSoldiers = launcher.soldiers.resultAllied
+    return {
+       'axisSoldiers': axisSoldiers,
+       'alliedSoldiers' : alliedSoldiers
+    }
+
+async def exit(request, launcher, driverChrome):
+    driverChrome.quit()
+    await launcher.stop(); 
+    
+    
+
+        
+  
 
      
     

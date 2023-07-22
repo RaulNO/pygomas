@@ -1,24 +1,36 @@
 
 document.addEventListener("DOMContentLoaded", function() {
-    
-    var alliedList = document.getElementById("alliedList").dataset.valor;
-    var axisList = document.getElementById("axisList").dataset.valor;
-    var firstLoad = document.getElementById("main").dataset.valor;
-    
-    if(firstLoad === 'true'){
-        console.log("Primera carga, guardamos listas iniciales...")
-        localStorage.setItem("axisList", axisList);
-        localStorage.setItem("alliedList", alliedList);
-    }
-    else{
-        console.log("Segunda carga, se actualizan las listas...");
 
-        var firstListAxis = localStorage.getItem("axisList");
-        var firstListAllied = localStorage.getItem("alliedList");
+  var InitAlliedList = document.getElementById("alliedList").dataset.valor;
+  var InitAxisList = document.getElementById("axisList").dataset.valor;
+
+  setInterval(function(){
+    $.ajax({
+        url: '/pygomas/getAgentList',
+        type: 'GET',
+        dataType: 'json',
+        headers: {
+            'Accept': 'application/json'     
+        }, 
+      success: function(data) {
+        console.log(data);
         
-        actualizarEstado(compareList(firstListAxis, axisList));
-        actualizarEstado(compareList(firstListAllied,alliedList));
-    }
+        var axisSoldiersList = JSON.stringify(data.axisSoldiers).replace(/"/g, "'");
+        var alliedSoldiersList = JSON.stringify(data.alliedSoldiers).replace(/"/g, "'");
+        
+        console.log(axisSoldiersList);
+        console.log(alliedSoldiersList);
+
+        actualizarEstado(compareList(InitAlliedList, alliedSoldiersList ));
+        actualizarEstado(compareList(InitAxisList, axisSoldiersList));
+
+      },
+      error: function(xhr, status, error) {
+        console.error(error);
+      }
+    });
+  }, 1000);
+    
   });
 
   function actualizarEstado(deadList){
@@ -27,39 +39,31 @@ document.addEventListener("DOMContentLoaded", function() {
     var imgElement;
 
     for(var i = 0; i < deadList.length; i++){
+      console.log("ELEMENTO " + deadList[i])
       spanElement = document.getElementById(deadList[i]);
       parent = spanElement.parentNode.parentNode;
       imgElement = parent.firstElementChild.querySelector("img");
       imgElement.src = "/static/icons/dead.png";
-
     }
   }
 
   function compareList(originalList, modifiedList) {
-    
+  
+    var originalArray = originalList.replace(/\s/g, "").slice(1, -1).split(",");
+    var modifiedArray = modifiedList.replace(/\s/g, "").slice(1, -1).split(",");
+    console.log("modified" + modifiedArray)
+    console.log("original" + originalArray)
+    var difference = originalArray.filter((element) => !modifiedArray.includes(element));
 
-    if(modifiedList == '[]'){
-      return originalList
-    }
-    else{
-        var originalListArray = originalList.match(/'([^']+)'/g).map(function(item) {
-          return item.slice(1, -1);
-        });
-        var modifiedListArray = modifiedList.match(/'([^']+)'/g).map(function(item) {
-          return item.slice(1, -1);
-        });
-        
-        var deadSoldiers = [];
+    var deadList = difference.map(item => item.replace(/'/g, ''));
 
-        for (var i = 0; i < originalListArray.length; i++) {
-          var elemento = originalListArray[i];
-          if (!modifiedListArray.includes(elemento)) {
-            deadSoldiers.push(elemento);
-          }
-        }
-        return deadSoldiers;
-    }
+    console.log(deadList);
+
+    return deadList;
   }
+  
+  
+  
   
   
   

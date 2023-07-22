@@ -1,0 +1,196 @@
+body{
+    font-family: Arial, sans-serif;
+}
+
+.div-mapName{
+    width: 100%;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.div-mapName input{
+    width: 20%;
+    padding: 5px;
+    font-size: 12px;
+    border: 1px solid #444c;
+    border-radius: 4px;
+    margin-left:10px;
+}
+
+.div-mapName label{
+    display: inline-block;
+    font-size: 18px;
+    font-weight: bold;
+    color: #555;
+    padding: 10px 20px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.div-container{
+    display:flex;
+}
+
+.div-left{
+    width: 25%;
+    height: 790px;
+    
+}
+
+.div-selectMap{
+    height: 90%;
+    justify-content: flex-end;
+}
+
+.div-selectMap select{
+    margin-left: 55px;
+    width: 80%;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #444c;
+    border-radius: 4px;
+}
+
+.div-returnButton{
+    height: 10%;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+}
+
+.div-returnButton a{
+  position: relative;
+  bottom: 0;
+  padding: 10px;
+  border: 2px solid #222;
+  background-color: #444;
+  border-color: #444;
+  border-radius:8px;
+  color:#fff;
+  font-size: 16px;
+  text-align: center;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  min-width: 100px;
+}
+
+.div-center{
+    width: 50%;
+    height: 790px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+}
+
+.box {
+    width: 19px;
+    height: 19px;
+    border: 1px solid black;
+    background-color: white;
+}
+
+.box.has-wall {
+    background-image: url('../icons/muro.png');
+    background-size:19px 19px;
+}
+
+.box.has-flag {
+    background-image: url('../icons/bandera.png');
+    background-size:22px 22px;
+}
+
+.box.has-axis {
+    background-image: url('../icons/spawnAxis.png');
+    background-size:22px 22px;
+}
+
+.box.has-allied {
+    
+    background-image: url('../icons/spawnAllied.png');
+    background-size:22px 22px;
+}
+
+.box:hover {
+    background-color: black;
+}
+
+.div-right{
+    width: 25%;
+    height:790px;
+}
+
+.div-buttonsMapElements{
+    height: 70%;
+}
+
+.div-buttonsMapElements button{
+    margin-bottom: 30px;
+    display: block;
+    padding: 10px;
+    border: 2px solid #0077cc;
+    background-color: #0077cc;
+    border-color: #0077cc;
+    border-radius:8px;
+    color:#fff;
+    font-size: 16px;
+    text-align: center;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    min-width: 300px;
+}
+
+.div-buttonsMapElements button:hover{
+    background-color: #005fa3;
+    border-color: #005fa3;
+}
+.div-buttonsMapElements button.toggle-button.active{
+    background-color: #ff9900;
+    color: white;
+    border: 2px solid #ff9900;
+    outline: none;
+    border-color: #ff9900;
+}
+
+.div-buttonsMapElements button.disabled{
+    background-color: #999;
+    color: #fff;
+    cursor: not-allowed;
+    opacity: 0.5;
+    border-color: #999;
+}
+
+.div-buttonsConfig{
+    height: 30%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: flex-start;
+    
+}
+
+.div-buttonsConfig button{
+    display: block;
+    padding: 10px;
+    margin-top: 30px;
+    border: 2px solid #222;
+    background-color: #444;
+    border-color: #444;
+    border-radius:8px;
+    color:#fff;
+    font-size: 16px;
+    text-align: center;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    min-width: 300px;
+}
+
+.div-buttonsConfig button:hover{
+  background-color: #CECECE;
+  color: #222;
+  border-color:#CECECE;
+}
+

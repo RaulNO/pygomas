@@ -2,8 +2,9 @@ const MAX_FLAG = 1;
 const MAX_AXIS = 2;
 const MAX_ALLIED = 2;
 
-var toggleButtons = document.querySelectorAll('.toggle-button');
-var coords = document.getElementsByName('coords')
+var toggleButtons;
+console.log(toggleButtons);
+var coords;
 var mode = ""
 var maxFlag = MAX_FLAG
 var maxAxis = MAX_AXIS
@@ -16,34 +17,46 @@ var SecondAllied = ""
 var activeButton = null;
     
 
+document.addEventListener('DOMContentLoaded', function() {
+    coords = document.getElementsByName('coords');
+    console.log(coords);
+    coords.forEach(function (td) {
+        td.addEventListener('click', function () {
+            var input;
+            input = td.querySelector('input');
+            if (mode != "" && mode != "box") {
+                input.value = mode;
+                td.className = "box has-" + mode
+                controlMaxBox(input.name);
+            }
+            else if (mode == "box"){
+                if(input.value == "axis" || input.value == "allied"){
+                    deleteSpawn(input.value);
+                }else if(input.value == "flag"){
+                    input.value = "";
+                    td.className = mode;
+                    maxFlag = MAX_FLAG
+                    document.getElementById("add-flag-button").disabled = false;
+                    document.getElementById("add-flag-button").className = "toggle-button";
+                }
+                else{
+                    input.value = "";
+                    td.className = mode; 
+                }
+            }
+            
+        })
+    });
+    toggleButtons = document.querySelectorAll('.toggle-button');
+    console.log(toggleButtons);
+    toggleButtons.forEach(function (button) {
+        button.addEventListener('click', function () {
+            console.log("click en button");
+            changeActiveButton(button);
+        });
+    });
+  });
 
-coords.forEach(function (td) {
-    td.addEventListener('click', function () {
-        var input;
-        input = td.querySelector('input');
-        if (mode != "" && mode != "box") {
-            input.value = mode;
-            td.className = "box has-" + mode
-            controlMaxBox(input.name);
-        }
-        else if (mode == "box"){
-            if(input.value == "axis" || input.value == "allied"){
-                deleteSpawn(input.value);
-            }else if(input.value == "flag"){
-                input.value = "";
-                td.className = mode;
-                maxFlag = MAX_FLAG
-                document.getElementById("add-flag-button").disabled = false;
-                document.getElementById("add-flag-button").className = "toggle-button";
-            }
-            else{
-                input.value = "";
-                td.className = mode; 
-            }
-        }
-        
-    })
-})
 
 function controlMaxBox(coord){
     
@@ -97,11 +110,7 @@ function changeActiveButton(button) {
     activeButton.classList.add('active');
 }
 
-toggleButtons.forEach(function (button) {
-    button.addEventListener('click', function () {
-        changeActiveButton(button);
-    });
-});
+
 
 function reset (){
 
@@ -167,7 +176,6 @@ function checkElements(){
     var flag = document.querySelectorAll(".box.has-flag");
     var axis = document.querySelectorAll(".box.has-axis");
     var allied = document.querySelectorAll(".box.has-allied");
-    console.log(flag.length + "///" + flag);
     if (flag.length > 0) {
         maxFlag = 0;
         document.getElementById("add-flag-button").className = "disabled";

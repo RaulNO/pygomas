@@ -1,15 +1,19 @@
 <html>
 <head>
-    <meta http-equiv="refresh" content="1">
     <link rel="stylesheet" type="text/css" href="/static/css/monitorize.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="/static/js/monitorize.js"></script>
+
+    
 </head>
 <body>
-    <div class = "div-main" data-valor="{{firstLoad}}" id="main">
+    <div class = "div-main"  id="main">
         <div class="div-tablas">
             <div class="div-allied">
-                <div class="div-alliedtable" data-valor="{{alliedSoldiers}}" id = "alliedList">                
+                <div class="div-alliedtable" data-valor="{{initAlliedSoldiers}}" id = "alliedList">
+
                     <table>
+                        
                         <thead >
                             <tr>
                                 <th class = "allied-title">Equipo Aliados</th>
@@ -35,7 +39,7 @@
             </div>
             
             <div class = "div-axis">
-                <div class= "div-axistable" data-valor="{{axisSoldiers}}" id = "axisList">
+                <div class= "div-axistable" data-valor="{{initAxisSoldiers}}"  id = "axisList">
                     <table>
                         <thead >
                             <tr>
@@ -62,6 +66,11 @@
         <div class="div-return">
             <a href="/pygomas/menu" class="a-return">Volver</a>
         </div>  
+        
+        <form method="post">
+            <input type="text" name="dato" placeholder="Ingresa un dato">
+            <button type="submit">Enviar</button>
+        </form>
     </div>
 </body>
 </html>

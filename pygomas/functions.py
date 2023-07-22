@@ -77,7 +77,7 @@ def createConfigFolder(configName):
     filePath = os.path.join(relativePath, f"{configName}_config.txt")
     with open(filePath, 'w') as f:
         f.write("SERVER: desktop-5hmpkhv\n")
-        f.write("MAP_NAME: map_01\n")
+        f.write("MAP_NAME: default\n")
         f.write("NUM_PLAYERS: 8\n")
         f.write("AGENTS: ejemplo1\n")
         f.write("MANAGER: cmanager\n")

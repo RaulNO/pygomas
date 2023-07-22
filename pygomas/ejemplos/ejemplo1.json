@@ -1,7 +1,7 @@
 {
     "host": "desktop-5hmpkhv",
-    "manager": "manager",
-    "service": "service",
+    "manager": "cmanager",
+    "service": "cservice",
     "axis": [
         {
             "rank": "BDISoldier",
@@ -11,10 +11,11 @@
         },
         {
             "rank": "BDIMedic",
-            "name": "medixAxis",
+            "name": "medicAxis",
             "password": "secret",
 			"amount": 2
         },
+        
         {
             "rank": "BDIFieldOp",
             "name": "fieldAxis",

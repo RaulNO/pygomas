@@ -1,6 +1,0 @@
-[pGomas]
-pGomas_OBJECTIVE: 30 1
-pGomas_SPAWN_ALLIED: 12 4 17 24
-pGomas_SPAWN_AXIS: 4 12 25 16
-pGomas_COST_MAP: 32 32 multiSpawn_cost.txt
-[pGomas]
