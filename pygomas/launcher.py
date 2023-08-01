@@ -9,9 +9,13 @@ from pygomas.ontology import *
 LONG_RECEIVE_WAIT: int = 1000000
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.chrome.options import Options
+
+chrome_options = Options()
+chrome_options.add_argument("disable-infobars")
 
 service = Service(executable_path='../dchrome/chromedriver.exe')
-driverChrome = webdriver.Chrome(service=service)
+driverChrome = webdriver.Chrome(service=service,options=chrome_options)
 
 class Launcher(Agent):
     

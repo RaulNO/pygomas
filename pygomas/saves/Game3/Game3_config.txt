@@ -1,0 +1,8 @@
+SERVER: desktop-5hmpkhv
+MAP_NAME: default
+NUM_PLAYERS: 6
+AGENTS: default
+MANAGER: opio
+SERVICE: opi
+PORT: 8001
+TIME: 300

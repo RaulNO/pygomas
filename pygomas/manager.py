@@ -199,7 +199,7 @@ class Manager(AbstractAgent, Agent):
         class InitBehaviour(OneShotBehaviour):
             async def run(self):
                 logger.success(
-                    "Manager (Expected Agents): {}".format(self.agent.max_total_agents)
+                    "Manager (Expecteddd Agents): {}".format(self.agent.max_total_agents)
                 )
                 
                 # for i in range(1, self.agent.max_total_agents + 1):

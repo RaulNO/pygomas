@@ -1,0 +1,39 @@
+{
+    "host": "desktop-5hmpkhv",
+    "manager": "cmanager",
+    "service": "cservice",
+    "axis": [
+        {
+            "rank": "BDIMedic",
+            "name": "axis_medic",
+            "password": "secret"
+        },
+        {
+            "rank": "BDIFieldOp",
+            "name": "axis_field",
+            "password": "secret"
+        },
+        {
+            "rank": "BDISoldier",
+            "name": "axis_soldier",
+            "password": "secret"
+        }
+    ],
+    "allied": [
+        {
+            "rank": "BDIMedic",
+            "name": "allied_medic",
+            "password": "secret"
+        },
+        {
+            "rank": "BDIFieldOp",
+            "name": "allied_field",
+            "password": "secret"
+        },
+        {
+            "rank": "BDISoldier",
+            "name": "allied_soldier",
+            "password": "secret"
+        }
+    ]
+}

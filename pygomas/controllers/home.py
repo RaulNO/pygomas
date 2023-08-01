@@ -10,9 +10,6 @@ map = Map()
 mainSave = ""
 # Crear una instancia del controlador ChromeDriver
 
-
-
-
 async def home(request):
     global mainSave
     saves = obtenerSaves()
@@ -48,18 +45,18 @@ async def menu(request, launcher):
             data = {'playerNumber': playerNumber, 'number': number, 'data_game': dataGame, 'mainSave':mainSave, 'form' : "configPlayers"}
             return data
         elif(formName == 'saveSoldiers'):
-            createJSONAgents(request, executeGame)
-            ##return redirect("/pygomas/menu")
+            createJSONAgents(request , formData, dataGame)
+            assignTroops(mainSave, formData.get("troopsName"))
+            raise web.HTTPFound("/pygomas/menu") 
         elif(formName == 'saveManager'):
             configurarManager(mainSave,formData)
             data={'data_game': getDataGame(mainSave), 'mainSave':mainSave, 'form' : "configManager"}
-            return data
+            raise web.HTTPFound("/pygomas/menu") 
         elif(formName=='launchManager'):
             print("Lanzando manager...")
             launchManagerOnline(formData)
             time.sleep(20)
             
-
         elif(formName=="launchSoldiers"):
             print("Lanzando soldier...")
             createJson(formData)
@@ -78,6 +75,8 @@ async def menu(request, launcher):
             if(manager is not None and manager != ""):
                 launchLocal(mainSave,manager)
             if(soldiers is not None and soldiers != ""):
+                modifyJSON(formData.get("JSONFile"), dataGame)
+                print(dataGame)
                 launchLocal(mainSave,soldiers)    
             if(renderI is not None and renderI != ""):
                 launchLocal(mainSave, renderI)
@@ -98,6 +97,7 @@ async def menu(request, launcher):
         
     context = {
         'maps': rellenarMapSelect(),
+        'troops_files': obtainTroopsFiles(),
         "data_game": dataGame,
         "mainSave" : mainSave
     }

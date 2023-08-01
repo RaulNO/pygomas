@@ -1,0 +1,8 @@
+SERVER: desktop-5hmpkhv
+MAP_NAME: ghogkhoghk
+NUM_PLAYERS: 14
+AGENTS: pruba_final
+MANAGER: manager
+SERVICE: service
+PORT: 8001
+TIME: 300

@@ -98,6 +98,22 @@
                 }
             }
 
+            function troopConfigLogic(selection){
+                var divNumPlayers = document.getElementById("numPlayersSelection");
+                divNumPlayers.style.display = 'block';
+            }
+            document.addEventListener("DOMContentLoaded", function() {
+                if (document.getElementById("players").value != ""){
+
+                    document.getElementById("numPlayersSelection").style.display = 'block';
+                    document.getElementById("troopsName").style.display = 'block';
+                    document.getElementById("saveTroops").style.display = 'block';
+                    document.getElementById("troopsNameInput").setAttribute("required", true);
+
+                    
+                }
+            });
+
         </script>
         <title>PYGOMAS</title>
     </head>
@@ -154,17 +170,24 @@
                 </div>
             </form>
             
-
             <form method="POST" class="div-configtroops" name = "configPlayers" style="display:none">
                 <h2 class = "agentTitle">Configuracion de agentes</h2>
-                <div>
-                    <label for="players" style="margin-right: 10px;"class= "agentLabel">Numero de jugadores por equipo: </label> 
-                    <input class="numPlayers" style="margin-right: 10px;" name = "players" id="players" type="number" max = "20" min = "1" value="{{number}}" required>
-                    <button class = "button-saveData" style = " width:100px; height: 20px;" type = "submit"  name= "button" value="showSoldiers">Confirmar</button>
+                <div style = "margin-bottom: 25px;">
+                    <a  onclick = "troopConfigLogic('newTroops')" class = "button-saveData" style = " display:flex; align-items: center; height: 25px; padding: 5px; justify-content: center;">Crear tropas</a>
                 </div>
-                
-                <br>
 
+                <div id = "numPlayersSelection" style = "display:none">
+                    <label for="players" style="margin-right: 10px;"class= "agentLabel">Numero de jugadores por equipo: </label> 
+                    <input style="margin-right: 10px;" name = "players" id="players" type="number" max = "20" min = "1" value="{{number}}" required>
+                    <button class = "button-saveData" style = " width:100px; height: 25px; " type = "submit"  name= "button" value="showSoldiers">Confirmar</button>
+                    <br>
+
+                    <div id = "troopsName" style = "margin-top: 25px; display:none;">
+                        <label for="players" style="margin-right: 10px; " class= "agentLabel">Nombre del archivo JSON: </label> 
+                        <input id = "troopsNameInput" style="margin-right: 10px;" name = "troopsName">
+                    </div>
+                <br>
+                </div>
                 <div class="form-troops">
                     <div style="margin-right: 40px;" class="subform-troops">
                         {% if playerNumber|length > 0 %}
@@ -209,7 +232,7 @@
                         {% endif %}
                     </div>
                 </div>
-                <button class="button-saveData" style = "margin-top: 20px;"type= "submit" name = "button" value="saveSoldiers">Guardar</button>
+                <button class="button-saveData" style = "margin-top: 20px; display:none" id = "saveTroops" type= "submit" name = "button" value="saveSoldiers">Guardar</button>
             </form>
 
             
@@ -217,17 +240,38 @@
             <form method="POST" class="div-locallaunch" name="launchLocal" style="display:none" >
                 <h2 class = "agentTitle">Local mode</h2>
                 <div class = "crearPartidaDiv">
-                    <div style="margin-bottom: 10px;">
-                        <label for="manager">Manager: ({{data_game.MANAGER}})</label>
-                        <input type="checkbox" name="manager" value="manager">
+                    
+                    <div style="margin-bottom: 10px; white-space: nowrap;">
+                        <div style = "width: 70%; display: inline-block;">
+                            <label style  = "float: left;" for="manager">Manager: ({{data_game.MANAGER}})</label>
+                        </div>
+                        <div style = "width: 30%; display: inline-block;">
+                            <input type="checkbox" name="manager" value="manager">
+                        </div>
                     </div>  
-                    <div style="margin-bottom: 10px;">
-                        <label for="soldiers">Soldados: ({{data_game.AGENTS}})</label>
-                        <input type="checkbox" name="soldiers" value="soldiers">
+
+                    <div style="margin-bottom: 10px; white-space: nowrap;">
+                        <div style = "width: 70%; display: inline-block;">
+                            <label style  = "float: left;" for="soldiers">Tropas: </label>
+                            <select style  = "float: left; margin-left: 10px;" name="JSONFile" id="selected-map" required>
+                                {% for option in troops_files %}
+                                <option  value="{{ option }}">{{ option }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div style = "width: 30%; display: inline-block;">
+                            <input type="checkbox" name="soldiers" value="soldiers">
+                        </div>
+                        
                     </div> 
-                    <div>
-                        <label for="render">Render: ({{data_game.MAP_NAME}})</label>
-                        <input type="checkbox" name="render" value="render">
+
+                    <div style="margin-bottom: 10px; white-space: nowrap;">
+                        <div style = "width: 70%; display: inline-block;">
+                            <label style  = "float: left;" for="render">Render: ({{data_game.MAP_NAME}})</label>
+                        </div>
+                        <div style = "width: 30%; display: inline-block;">
+                            <input type="checkbox" name="render" value="render">
+                        </div>
                     </div>
                         <button style="margin-top: 10px; " type= "submit" name = "button" value="launchLocal" class="button-saveData">Lanzar partida</button>
                 </div>
@@ -345,7 +389,7 @@
             </div>
 
             
-            <form method="POST" class="div-configmanager" name = "monitorizeGame" style="display:none">
+            <form method="POST" class="div-monitorize" name = "monitorizeGame" style="display:none">
                 <div class = "form-configmanager">
                     <div>
                         <label for="XMPPServer">Nombre de servidor XMPP: </label>

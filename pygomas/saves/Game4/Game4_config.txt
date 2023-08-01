@@ -1,0 +1,8 @@
+SERVER: desktop-5hmpkhv
+MAP_NAME: default2
+NUM_PLAYERS: 6
+AGENTS: default2
+MANAGER: manager2
+SERVICE: service2
+PORT: 8001
+TIME: 300
