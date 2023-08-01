@@ -1,11 +1,9 @@
 import urllib.parse
 import asyncio
 from functions import *
-from executeGame import ExecuteGame
 from MapObject import Map
 from aiohttp import web
 
-executeGame = ExecuteGame()
 map = Map()
 mainSave = ""
 # Crear una instancia del controlador ChromeDriver
