@@ -1,0 +1,426 @@
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="/static/css/menu.css">
+
+        <script>
+            document.addEventListener("DOMContentLoaded", function(event) {
+                console.log(
+                    "Document Ready!"
+                )
+                if("{{form}}" != ""){
+                    var form = document.getElementsByName("{{form}}")[0];
+                    form.style.display='block';
+                }
+                
+            });
+            function hideForm(formType) {
+                var configManager = document.getElementsByName("configManager")[0];
+                var configPlayers = document.getElementsByName("configPlayers")[0];
+                var online = document.getElementsByName("onlineMode")[0];
+                var launchLocal = document.getElementsByName("launchLocal")[0];
+                var monitorizeGame = document.getElementsByName("monitorizeGame")[0]
+                if (formType == 'manager') {
+                    console.log("Entrando en configuracion de manager...")
+                    configManager.style.display = 'block';
+                    configPlayers.style.display = 'none';
+                    online.style.display = 'none';
+                    launchLocal.style.display = 'none';
+                    monitorizeGame.style.display = 'none';
+                } else if (formType == 'players') {
+                    console.log("Entrando en configuracion de jugadores...")
+                    configManager.style.display = 'none';
+                    online.style.display = 'none';
+                    configPlayers.style.display = 'block';
+                    launchLocal.style.display = 'none';
+                    monitorizeGame.style.display = 'none';
+                } else if(formType=='online'){
+                    console.log("Entrando en online...")
+                    configManager.style.display = 'none';
+                    configPlayers.style.display = 'none';
+                    online.style.display = 'block';
+                    launchLocal.style.display = 'none';
+                    monitorizeGame.style.display = 'none';
+                }else if(formType=='local'){
+                    configManager.style.display = 'none';
+                    configPlayers.style.display = 'none';
+                    online.style.display = 'none';
+                    launchLocal.style.display = 'block';
+                    monitorizeGame.style.display = 'none';
+                }else if(formType=='spectator'){
+                    configManager.style.display = 'none';
+                    configPlayers.style.display = 'none';
+                    online.style.display = 'none';
+                    launchLocal.style.display = 'none';
+                    monitorizeGame.style.display = 'block';
+                }
+            }
+
+            function hideSubForm(formType){
+                var launchManager = document.getElementsByName("launchManager")[0];
+                var launchSoldiers = document.getElementsByName("launchSoldiers")[0];
+                var launchRender = document.getElementsByName("launchRender")[0];
+                
+                if (formType == 'manager') {
+                    console.log("Entrando en configuracion de manager...")
+                    launchManager.style.display = 'block';
+                    launchSoldiers.style.display = 'none';
+                    launchRender.style.display = 'none';
+                    document.getElementById('managerSubForm').classList.remove("buttonSubForm");
+                    document.getElementById('managerSubForm').classList.add("buttonPressed");
+                    document.getElementById('troopSubForm').classList.remove("buttonPressed");
+                    document.getElementById('troopSubForm').classList.add("buttonSubForm");
+                    document.getElementById('renderSubForm').classList.remove("buttonPressed");
+                    document.getElementById('renderSubForm').classList.add("buttonSubForm");
+
+                } else if (formType == 'soldiers') {
+                    console.log("Entrando en configuracion de jugadores...");
+                    launchManager.style.display = 'none';
+                    launchRender.style.display = 'none';
+                    launchSoldiers.style.display = 'block';
+                    document.getElementById('managerSubForm').classList.remove("buttonPressed");
+                    document.getElementById('managerSubForm').classList.add("buttonSubForm");
+                    document.getElementById('troopSubForm').classList.remove("buttonSubForm");
+                    document.getElementById('troopSubForm').classList.add("buttonPressed");
+                    document.getElementById('renderSubForm').classList.remove("buttonPressed");
+                    document.getElementById('renderSubForm').classList.add("buttonSubForm");
+                    
+                } else if (formType=='render'){
+                    console.log("Entrando en online...")
+                    launchManager.style.display = 'none';
+                    launchSoldiers.style.display = 'none';
+                    launchRender.style.display = 'block';
+                    document.getElementById('managerSubForm').classList.remove("buttonPressed");
+                    document.getElementById('managerSubForm').classList.add("buttonSubForm");
+                    document.getElementById('troopSubForm').classList.remove("buttonPressed");
+                    document.getElementById('troopSubForm').classList.add("buttonSubForm");
+                    document.getElementById('renderSubForm').classList.remove("buttonSubForm");
+                    document.getElementById('renderSubForm').classList.add("buttonPressed");
+                }
+            }
+
+            function troopConfigLogic(selection){
+                var divNumPlayers = document.getElementById("numPlayersSelection");
+                divNumPlayers.style.display = 'block';
+            }
+            document.addEventListener("DOMContentLoaded", function() {
+                if (document.getElementById("players").value != ""){
+
+                    document.getElementById("numPlayersSelection").style.display = 'block';
+                    document.getElementById("troopsName").style.display = 'block';
+                    document.getElementById("saveTroops").style.display = 'block';
+                    document.getElementById("troopsNameInput").setAttribute("required", true);
+
+                    
+                }
+            });
+
+        </script>
+        <title>PYGOMAS</title>
+    </head>
+    <body>
+            <center>
+
+            <div class="div-menu">
+                <h1 class="logo">PYGOMAS</h1>
+                <a class = "button-menu" onclick="hideForm('manager')">Configurar manager</a>
+                <br>
+                <a class="button-menu" onclick="hideForm('players')">Jugadores</a>
+                <br>
+                <a class="button-menu" href="/pygomas/menu/mapEditor">Mapa</a>
+                <br>
+                <a class = "button-menu" onclick="hideForm('local')">Crear partida</a>
+                <br>
+                <a class = "button-menu" onclick="hideForm('online')" >Unirse a partida</a>
+                <br>
+                <a class = "button-menu" onclick="hideForm('spectator')">Monitorizar partida</a>
+            </div>
+            
+            
+            <form method="POST" class="div-configmanager" name = "configManager" style="display:none">
+                <h2 class = "agentTitle">Configuracion de manager</h2>
+                    
+                <div class = "form-configmanager">
+                    <div>
+                        <label for="NombreServer">Nombre servidor:</label>
+                        <input class= "managerInput" type = "text" name="NombreServer" value="{{data_game.SERVER}}">
+                    </div>
+                    <div>
+                        <label for="NombreManager">Nombre de manager:</label>
+                        <input class= "managerInput" type = "text" name="NombreManager" value="{{data_game.MANAGER}}">
+                    </div>
+                    <div>
+                        <label for="NombreServicio">Nombre de servicio:</label>
+                        <input class= "managerInput" type = "text" name="NombreServicio" value="{{data_game.SERVICE}}">
+                    </div>
+                    <div>
+                        <label  for="Puerto">Puerto:</label>
+                        <input type = 'number' class= "managerInput" type = "text" name="Puerto" value="{{data_game.PORT}}">
+                    </div>
+                    <div>
+                        <label  for="Njugadores">Numero de jugadores:</label>
+                        <input type = 'number' class= "managerInput" type = "text" name="Njugadores" value="{{data_game.NUM_PLAYERS}}">
+                    </div>
+                    <div>
+                        <label  for="matchTime">Tiempo de partida:</label>
+                        <input type = 'number' class= "managerInput" type = "text" name="matchTime" value="{{data_game.TIME}}">
+                    </div>  
+                    <div>   
+                        <button type= "submit" name = "button" class= "button-saveData" value="saveManager">Guardar</button>
+                    </div>
+                </div>
+            </form>
+            
+            <form method="POST" class="div-configtroops" name = "configPlayers" style="display:none">
+                <h2 class = "agentTitle">Configuracion de agentes</h2>
+                <div style = "margin-bottom: 25px;">
+                    <a  onclick = "troopConfigLogic('newTroops')" class = "button-saveData" style = " display:flex; align-items: center; height: 25px; padding: 5px; justify-content: center;">Crear tropas</a>
+                </div>
+
+                <div id = "numPlayersSelection" style = "display:none">
+                    <label for="players" style="margin-right: 10px;"class= "agentLabel">Numero de jugadores por equipo: </label> 
+                    <input style="margin-right: 10px;" name = "players" id="players" type="number" max = "20" min = "1" value="{{number}}" required>
+                    <button class = "button-saveData" style = " width:100px; height: 25px; " type = "submit"  name= "button" value="showSoldiers">Confirmar</button>
+                    <br>
+
+                    <div id = "troopsName" style = "margin-top: 25px; display:none;">
+                        <label for="players" style="margin-right: 10px; " class= "agentLabel">Nombre del archivo JSON: </label> 
+                        <input id = "troopsNameInput" style="margin-right: 10px;" name = "troopsName">
+                    </div>
+                <br>
+                </div>
+                <div class="form-troops">
+                    <div style="margin-right: 40px;" class="subform-troops">
+                        {% if playerNumber|length > 0 %}
+                            <div style="margin-bottom: 10px;"><label class="team">AXIS TEAM</label></div>
+                            <br>
+                            {% for i in playerNumber %}
+                                <div class = "div-troop">
+                                    <label style="width:5%;" for="AxisName{{i}}">Name</label>
+                                    <input type="text" value="" name="AxisName{{i}}" id="AxisName{{i}}">
+                                    <label style="width:5%;"for="AxisRank{{i}}">Rango</label>
+                                    <select name="AxisRank{{i}}" id="AxisRank{{i}}">
+                                        <option value="BDIMedic">Medic</option>
+                                        <option value="BDIFieldOp">Field</option>
+                                        <option value="BDISoldier">Soldier</option>
+                                    </select>
+                                </div>
+                                <br>
+                            {% endfor %}
+                        {% else %}
+                    
+                        {% endif %}
+                    </div>
+                    
+                    <div class="subform-troops">
+                        {% if playerNumber|length > 0 %}
+                        <div style="margin-bottom: 10px;"><label class="team">ALLIED TEAM</label></div>
+                        <br>
+                            {% for i in playerNumber %}
+                                <div class = "div-troop">
+                                    <label style="width:5%;" for="AlliedName{{i}}">Name </label>
+                                    <input type="text" value="" name="AlliedName{{i}}" id="AlliedName{{i}}">
+                                    <label style="width:5%;" for="AlliedRank{{i}}">Rank</label>
+                                    <select name="AlliedRank{{i}}" id="AlliedRank{{i}}">
+                                        <option value="BDIMedic">Medic</option>
+                                        <option value="BDIFieldOp">Field</option>
+                                        <option value="BDISoldier">Soldier</option>
+                                    </select>
+                                </div>
+                            <br>
+                            {% endfor %}
+                        {% else %}
+                        {% endif %}
+                    </div>
+                </div>
+                <button class="button-saveData" style = "margin-top: 20px; display:none" id = "saveTroops" type= "submit" name = "button" value="saveSoldiers">Guardar</button>
+            </form>
+
+            
+            
+            <form method="POST" class="div-locallaunch" name="launchLocal" style="display:none" >
+                <h2 class = "agentTitle">Local mode</h2>
+                <div class = "crearPartidaDiv">
+                    
+                    <div style="margin-bottom: 10px; white-space: nowrap;">
+                        <div style = "width: 70%; display: inline-block;">
+                            <label style  = "float: left;" for="manager">Manager: ({{data_game.MANAGER}})</label>
+                        </div>
+                        <div style = "width: 30%; display: inline-block;">
+                            <input type="checkbox" name="manager" value="manager">
+                        </div>
+                    </div>  
+
+                    <div style="margin-bottom: 10px; white-space: nowrap;">
+                        <div style = "width: 70%; display: inline-block;">
+                            <label style  = "float: left;" for="soldiers">Tropas: </label>
+                            <select style  = "float: left; margin-left: 10px;" name="JSONFile" id="selected-map" required>
+                                {% for option in troops_files %}
+                                <option  value="{{ option }}">{{ option }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div style = "width: 30%; display: inline-block;">
+                            <input type="checkbox" name="soldiers" value="soldiers">
+                        </div>
+                        
+                    </div> 
+
+                    <div style="margin-bottom: 10px; white-space: nowrap;">
+                        <div style = "width: 70%; display: inline-block;">
+                            <label style  = "float: left;" for="render">Render: ({{data_game.MAP_NAME}})</label>
+                        </div>
+                        <div style = "width: 30%; display: inline-block;">
+                            <input type="checkbox" name="render" value="render">
+                        </div>
+                    </div>
+                        <button style="margin-top: 10px; " type= "submit" name = "button" value="launchLocal" class="button-saveData">Lanzar partida</button>
+                </div>
+            </form>
+
+           
+
+            <div class="div-onlinelaunch" style="display:none" name="onlineMode">
+                <h2 class = "agentTitle">Online mode</h2>
+                <div name = "onlinelaunch-menu" class="onlinelaunch-menu">
+                    <a class= "buttonSubForm" id="managerSubForm" onclick="hideSubForm('manager')">Manager</a>
+                    <a class= "buttonSubForm" id="troopSubForm" onclick="hideSubForm('soldiers')">Soldados</a>
+                    <a class= "buttonSubForm" id="renderSubForm" onclick="hideSubForm('render')">Render</a>
+                </div>
+        
+                <div  class="onlinemode-form">
+                    
+                    <form method="POST" name="launchManager" style="display:none">
+                        
+                        <div style = "padding: 20px;" class = "form-configmanager">
+
+                            <div>   
+                                <label for="NombreServer">Nombre servidor</label>
+                                <input  type = "text" name="NombreServer" >
+                            </div>
+                            <div>   
+                                <label for="NombreManager">Nombre de manager</label>
+                                <input  type = "text" name="NombreManager" >
+                            </div>
+                            <div>
+                                <label for="NombreServicio">Nombre de servicio</label>
+                                <input  type = "text" name="NombreServicio" >
+                            </div>
+                            <div>
+                                <label  for="Puerto">Puerto</label>
+                                <input type = 'number' name="Puerto" >
+                            </div>
+                            <div>
+                                <label  for="Njugadores">Numero de jugadores</label>
+                                <input type = 'number' name="Njugadores" >
+                            </div>
+                            <div>
+                                <label  for="matchTime">Tiempo de partida</label>
+                                <input type = 'number'  name="matchTime" >
+                            </div>
+                            <div>
+                                <label  for="map_name">Mapa</label>
+                                <select  name="map_name">
+                                        <option value="" disabled selected></option>
+                                    {% for map in maps %}
+                                        <option class="map-list" value="{{ map }}">{{ map }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+
+                        <div>
+                            <button class="button-saveData"type= "submit" name = "button" value="launchManager">Lanzar</button>
+                        </div>
+
+                    </form>
+
+                    <form method="POST" name="launchRender" style="display:none">
+                        <div style = "padding: 20px;" class = "form-configmanager">
+                            <div>
+                                <label for="NombreServer">Nombre servidor</label>
+                                <input  type = "text" name="NombreServer" >   
+                            </div> 
+                        </div>
+                        <div>
+                            <button class="button-saveData"type= "submit" name = "button" value = "launchRender">Lanzar</button>
+                        </div>
+                    </form>
+
+                    <form method="POST" name="launchSoldiers" style="display:none">
+                        
+                        <div style = "padding: 20px;" class = "form-configmanager">
+                            <div>
+                            <label for="NombreServer">Nombre servidor</label>
+                            <input  type = "text" name="NombreServer">
+                            </div>
+                            <div>
+                            <label for="NombreManager">Nombre de manager</label>
+                            <input  type = "text" name="NombreManager" >
+                            </div>
+                            <div>
+                            <label for="NombreServicio">Nombre de servicio</label>
+                            <input  type = "text" name="NombreServicio" >
+                            </div>
+                            <div>
+                            <label  for="soldierName">Nombre</label>
+                            <input  type = "text" name="soldierName" >
+                            </div>
+                            <div>
+                            <label  for="team">Mapa</label>
+                            <select  type = "text" name="team" >
+                                <option value = "axis">Axis</option>
+                                <option value = "allied">Allied</option>
+                            </select>
+                            </div>
+                            <div>
+                            <label  for="rank">Rango</label>
+                            <select  type = "text" name="rank" >
+                                <option value="BDIMedic">Medic</option>
+                                <option value="BDIFieldOp">Field</option>
+                                <option value="BDISoldier">Soldier</option>
+                            </select>
+                            </div>
+                        </div>
+                        <div>
+                            <button class="button-saveData"type= "submit" name = "button" value = "launchSoldiers">Lanzar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            
+            <form method="POST" class="div-monitorize" name = "monitorizeGame" style="display:none">
+                <div class = "form-configmanager">
+                    <div>
+                        <label for="XMPPServer">Nombre de servidor XMPP: </label>
+                        <input  type = "text" name="XMPPServer" >
+                    </div>
+                    <div>
+                        <label for="spectatedService">Nombre de servicio: </label>
+                        <input  type = "text" name="spectatedService" >
+                    </div>
+
+                    <div>   
+                        <button class="button-saveData"type= "submit" name = "button" value = "monitorize">Monitorizar</button>
+                    </div>
+                </div>
+                
+            </form>
+
+            </center>
+
+            <div class="footer">
+                <div class = "footer-info">
+                    <p id="mainSave" class="datosPartida"><strong>Partida: </strong>{{ mainSave }}</p>
+                    <p id="mapName"><strong class="datosPartida">Mapa: </strong>{{ data_game.MAP_NAME }}</p>
+                    <p id="agentes"><strong class="datosPartida">Agentes: </strong>{{ data_game.AGENTS }}</p>
+                </div>
+                <div class="footer-buttons">
+                    <a href="/pygomas">Volver</a>
+                    <a href="/pygomas/exit">Cerrar launcher</a>
+                </div>
+            </div>
+            
+            
+    </body>
+</html>

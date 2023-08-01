@@ -1,0 +1,61 @@
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="/static/css/home.css">
+        <script>
+            function hideForm(formType) {
+                var createForm = document.getElementsByName("createGame")[0];
+                var loadForm = document.getElementsByName("loadGame")[0];
+
+                if (formType == 'create') {
+                    console.log("Click create")
+                    createForm.style.display = 'block';
+                    loadForm.style.display = 'none';
+                } else {
+                    console.log("Click load")
+                    createForm.style.display = 'none';
+                    loadForm.style.display = 'block';
+                }
+            }
+        </script>
+        <style>
+        </style>
+    </head>
+    <body>
+
+        <div class="div-main">
+
+            <h1 class="logo">PYGOMAS</h1>
+  
+            <a class="button-home" onclick="hideForm('create')">Nueva partida</a>
+            <a class="button-home" onclick="hideForm('load')">Cargar partida</a>
+                
+            <div style = "display:none" class = "div-children" name = "createGame">
+                <form  method="POST" name = "createGame">
+                    <div>
+                        <label class = "create-label" for="config-name">Nombre de partida</label>
+                        <br>
+                        <input class="input-form" type="text" name="GameName" id="config-name" required>
+                        <button type="submit" class="button-form" name="button" value = "createGame">Crear</button>
+                    </div>
+                </form>
+            </div>
+
+            <div style = "display:none" class = "div-children" name = "loadGame">
+                <form method="POST" name = "loadGame">
+                    <div>
+                        <label class = "create-label" for="ConfigName">Nombre de partida</label>
+                        <br>
+                        <select name="GameName" class="input-form" required>
+                            <option value="" class="">{{ save }}</option>
+                            {% for save in saves %}
+                            <option value="{{ save }}" class="select-option">{{ save }}</option>
+                            {% endfor %}
+                        </select>
+                        <button type="submit" name="button" value="loadGame" class="button-form">Seleccionar</button>
+                    </div>    
+                </form>
+            </div>  
+
+        </div>
+    </body>
+</html>

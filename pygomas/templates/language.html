@@ -1,0 +1,12 @@
+
+{% load i18n %}
+<form class="language-form" action="{% url 'change_language' %}" method="post" id="language-form">
+  {% csrf_token %}
+  <label class="language-label" for="language-select">{% trans "Idioma:" %}</label>
+  <select class="language-select" name="language" id="language-select" onchange="document.getElementById('language-form').submit()">
+    <option value="es"{% if request.COOKIES.idioma == 'es' %} selected{% endif %}>Español</option>
+    <option value="en"{% if request.COOKIES.idioma == 'en' %} selected{% endif %}>English</option>
+   </select>
+</form>
+
+

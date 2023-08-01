@@ -2,7 +2,6 @@ import json
 from abc import ABCMeta
 
 from loguru import logger
-
 from spade.agent import Agent
 from spade.behaviour import OneShotBehaviour
 from spade.message import Message

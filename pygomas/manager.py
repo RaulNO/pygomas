@@ -195,12 +195,13 @@ class Manager(AbstractAgent, Agent):
         return coro
 
     async def setup(self):
+
         class InitBehaviour(OneShotBehaviour):
             async def run(self):
                 logger.success(
-                    "Manager (Expected Agents): {}".format(self.agent.max_total_agents)
+                    "Manager (Expecteddd Agents): {}".format(self.agent.max_total_agents)
                 )
-
+                
                 # for i in range(1, self.agent.max_total_agents + 1):
                 while self.agent.number_of_agents < self.agent.max_total_agents:
                     msg = await self.receive(timeout=LONG_RECEIVE_WAIT)
@@ -243,6 +244,18 @@ class Manager(AbstractAgent, Agent):
                 # Behaviour to refresh all render engines connected
                 self.agent.launch_render_engine_inform_behaviour()
 
+        class killManager(OneShotBehaviour):
+            async def run(self):
+                logger.success("Waiting for kill...")
+                msg = await self.receive(timeout=LONG_RECEIVE_WAIT)
+                print("Message to stop received")
+                if(msg.body == "kill"):
+                    print("Stopping game...")
+                    self.agent.inform_game_finished("AXIS!", self)
+                    print("Game stopped")
+
+        
+
         logger.success(
             "pygomas {} (c) VRAIN 2005-{} (VRAIN/UPV)".format(
                 __version__, time.strftime("%Y")
@@ -274,6 +287,7 @@ class Manager(AbstractAgent, Agent):
         template = Template()
         template.set_metadata(PERFORMATIVE, PERFORMATIVE_INIT)
         self.add_behaviour(InitBehaviour(), template)
+        self.add_behaviour(killManager())
 
         await self.create_objectives()  # We need to do this when online
 

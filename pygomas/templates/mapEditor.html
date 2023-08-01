@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <meta charset="UTF-8">
+        <title>Mapa</title>
+        <link rel="stylesheet" type="text/css" href="/static/css/map.css">    
+        <script src="/static/js/scriptsMap.js"></script>
+    </head>
+        
+
+    <body onload = "checkElements()">
+        <form method="POST" id="form">
+
+            <div class="div-mapName">
+                <label  for="map_name">Nombre del mapa: </label>
+                <input type="text" id="map_name" name="map_name" value = "{{map_name}}">
+            </div>
+            <br>
+            <div class = "div-container">
+                <div class= "div-left">
+                    <div class= div-selectMap>
+                        <select  class="map-selector" name="select-map" id="selected-map" >
+                            <option value="" disabled selected>Mapas</option>
+                            {% for option in options %}
+                            <option class="map-list" value="{{ option }}">{{ option }}</option>
+                            {% endfor %}
+                        </select> 
+                    </div>
+                    <div class = div-returnButton>
+                        <a class="return-btn" href="/pygomas/menu" class="button return">Volver</a>
+                    </div>
+                </div>
+
+                <div class = "div-center">
+                    <table>
+                        {% for row in map %}
+                        {% set outer_loop = loop %}
+                            <tr>
+                                {% for box in row %}
+                                    <td name = "coords" class="box
+                                        {% if box.get_has_wall() %} has-wall{% endif %}{% if box.get_has_flag() %} has-flag{% endif %}{% if box.get_has_axisSpawn() %} has-axis{% endif %}{% if box.get_has_alliedSpawn() %} has-allied{% endif %}">
+                                        <input type="hidden" name="{{ outer_loop.index0 }}-{{ loop.index0 }}" value="{% if box.get_has_wall() %}wall{% endif %}{% if box.get_has_flag() %}flag{% endif %}{% if box.get_has_axisSpawn() %}axis{% endif %}{% if box.get_has_alliedSpawn() %}allied{% endif %}"> 
+                                    </td>
+                                {% endfor %}
+                            </tr>
+                        {% endfor %}
+                    </table>
+
+                </div>
+
+                <div class="div-right">
+                    <div class="div-buttonsMapElements">
+                        <button type= "button"id="add-wall-button" class="toggle-button" value="wall">Añadir pared</button>
+                        <button type= "button"id="add-flag-button" class="toggle-button" value="flag">Añadir bandera</button>
+                        <button type= "button"id="add-spawn-axis-button" class="toggle-button" value="axis">Añadir zona de aparicion de Eje</button>
+                        <button type= "button"id="add-spawn-allied-button" class="toggle-button" value="allied">Añadir zona de aparicion de Aliados</button>
+                        <button type= "button"id="delete-element-button" class="toggle-button" value="box">Borrar elemento</button>
+                    </div>
+                    <div class = "div-buttonsConfig" >
+                        <button type= "sumbit" value="loadMap" name = "button" >Cargar Mapa</button>
+                        <button type="submit"  value="saveMap" name="button" >Guardar Mapa</button>
+                        <button type="sumbit" value="assignMap" name = "button" >Asignar Mapa</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </body>
+</html>
