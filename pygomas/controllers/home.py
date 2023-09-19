@@ -3,6 +3,7 @@ import asyncio
 from functions import *
 from MapObject import Map
 from aiohttp import web
+from spade.template import Template
 
 map = Map()
 mainSave = ""
@@ -51,18 +52,18 @@ async def menu(request, launcher):
             data={'data_game': getDataGame(mainSave), 'mainSave':mainSave, 'form' : "configManager"}
             raise web.HTTPFound("/pygomas/menu") 
         elif(formName=='launchManager'):
-            print("Lanzando manager...")
             launchManagerOnline(formData)
-            time.sleep(20)
-            
+            time.sleep(5)
+            template = Template()
+            template.set_metadata('performative', 'finished_game')
+            launcher.informFinishedGameBehaviour = launcher.informFinishedGame()
+            launcher.add_behaviour(launcher.informFinishedGameBehaviour, template) 
         elif(formName=="launchSoldiers"):
-            print("Lanzando soldier...")
             createJson(formData)
             launchSoldierOnline()
-            time.sleep(10)            
+            time.sleep(3)            
 
         elif(formName=="launchRender"):
-            print("Lanzando render...")
             launchRenderOnline(formData)
 
         elif(formName=='launchLocal'):
@@ -73,11 +74,15 @@ async def menu(request, launcher):
             if(manager is not None and manager != ""):
                 launchLocal(mainSave,manager)
             if(soldiers is not None and soldiers != ""):
-                modifyJSON(formData.get("JSONFile"), dataGame)
-                print(dataGame)
+                modifyJSON(formData.get("JSONFile"), dataGame, mainSave)
                 launchLocal(mainSave,soldiers)    
             if(renderI is not None and renderI != ""):
                 launchLocal(mainSave, renderI)
+
+            template = Template()
+            template.set_metadata('performative', 'finished_game')
+            launcher.informFinishedGameBehaviour = launcher.informFinishedGame()
+            launcher.add_behaviour(launcher.informFinishedGameBehaviour, template)            
         
         elif(formName=='monitorize'):
             
@@ -156,32 +161,51 @@ async def monitorizar(request, launcher):
         return {'initAlliedSoldiers':initAlliedSoldiers,'initAxisSoldiers':initAxisSoldiers}
     
     elif request.method == 'POST':
-        dataGame = getDataGame(mainSave) 
-        print("Boton de stop pulsado!")
-        print(dataGame["MANAGER"])
-        print(dataGame["SERVER"])
-        launcher.killManager = launcher.stopGame()
-        launcher.killManager.manager = dataGame["MANAGER"]
-        launcher.killManager.XMPPServer = dataGame["SERVER"]
-        launcher.add_behaviour(launcher.killManager)
-        print("Manager detenido")
-        raise web.HTTPFound("/pygomas/menu") 
-
+        '''enviar mensajes a troops''' 
    
 async def getAgentList(request, launcher):
+    global mainSave
     axisSoldiers = launcher.soldiers.resultAxis
     alliedSoldiers = launcher.soldiers.resultAllied
+    finishedGame = launcher.informFinishedGameBehaviour.finished
+    
     return {
        'axisSoldiers': axisSoldiers,
-       'alliedSoldiers' : alliedSoldiers
+       'alliedSoldiers' : alliedSoldiers,
+       'finishedGame' : finishedGame
     }
 
 async def exit(request, launcher, driverChrome):
     driverChrome.quit()
     await launcher.stop(); 
-    
-    
 
+async def stopManager(request, launcher):
+        dataGame = getDataGame(mainSave) 
+        launcher.killManagerBehaviour = launcher.killManager()
+        launcher.killManagerBehaviour.manager = dataGame["MANAGER"]
+        launcher.killManagerBehaviour.XMPPServer = dataGame["SERVER"]
+        launcher.add_behaviour(launcher.killManagerBehaviour)
+        raise web.HTTPFound("/pygomas/menu")
+
+async def viewstats(request, launcher):
+    global mainSave
+    getStats(mainSave)
+    dir = "saves/"+mainSave+"/pygomas_stats.txt"
+    print(dir)
+    try:
+        with open(dir, 'r') as archivo:
+            content = archivo.read()
+        return {
+            'content': content,
+            'save' : mainSave
+
+        }
+    except FileNotFoundError:
+        return {
+            'content' : "No se ha ejecutado ninguna partida en " + mainSave
+        }
+        
+ 
         
   
 

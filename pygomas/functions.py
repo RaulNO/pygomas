@@ -4,6 +4,8 @@ import json
 import fileinput
 import subprocess
 import time
+import shutil
+
 
 
 def rellenarMapSelect():
@@ -19,7 +21,7 @@ def obtenerSaves():
     saves = os.listdir("saves")
     return saves
 
-def modifyJSON(JSONfile, dataGame):
+def modifyJSON(JSONfile, dataGame, save):
     print('JSONFILE is: ' + str(JSONfile))
     with open ("troopsJSON/"+JSONfile, 'r') as file:
         data = json.load(file)
@@ -28,6 +30,19 @@ def modifyJSON(JSONfile, dataGame):
 
     with open("troopsJSON/"+JSONfile, 'w') as file:
         json.dump(data, file, indent = 4)
+
+    currentPath = os.path.dirname(os.path.abspath(__file__))
+    relativePath = os.path.join(currentPath, "saves", save)
+    config_file = os.path.join(relativePath, save + '_config.txt')
+
+    with fileinput.FileInput(config_file, inplace=True) as file:
+        for line in file:
+            if line.startswith('AGENTS'):
+                print('AGENTS: {}'.format(JSONfile))
+            else:
+                print(line, end='')    
+
+
 
 def launchLocal(save,agent):
     print("Lanzando " + agent + ".............")
@@ -48,17 +63,17 @@ def launchLocal(save,agent):
     if (agent == 'manager'):
         comandoManager = 'pygomas manager -j ' + manager + '@' +server+ ' -m '+ map_name +' -mp ' + maps_path + ' -sj ' + service + '@' + server + ' -np ' + str(numPlayers) + ' --port ' + port + ' -t ' + LimitTime
         subprocess.Popen(['cmd.exe', '/k', comandoManager])
-        time.sleep(5)
+        time.sleep(8)
 
     if (agent == 'render'): 
        comandoVista = 'pygomas render --maps maps --ip ' + server
        subprocess.Popen(['cmd.exe', '/k', comandoVista])  
        
     if (agent == 'soldiers'):
-        print("Se van a lanzar los soldiers...")
-        comandoAgentes = 'cd troopsJSON & pygomas run -g ' + agents + '.json -mp ../maps/ & cd ..'  
+        print("Se van a lanzar los soldiers... " + agents)
+        comandoAgentes = 'cd troopsJSON & pygomas run -g ' + agents + ' -mp ../maps/ & cd ..'  
         subprocess.Popen(['cmd.exe', '/k', comandoAgentes])
-        time.sleep(3)
+        time.sleep(5)
 
 def launchManagerOnline(formData):
     manager = formData.get("NombreManager")
@@ -276,3 +291,10 @@ def configurarManager(save, formData):
                 print('TIME: {}'.format(formData.get('matchTime')))
             else:
                 print(line, end='')
+
+def getStats(save):
+    ruta_origen = "pygomas_stats.txt"
+    ruta_destino = "saves/" + save
+    if os.path.exists(os.path.join(ruta_destino, "pygomas_stats.txt")):
+       os.remove(os.path.join(ruta_destino, "pygomas_stats.txt"))
+    shutil.move(ruta_origen, ruta_destino)

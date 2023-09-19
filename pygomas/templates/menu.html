@@ -133,6 +133,8 @@
                 <a class = "button-menu" onclick="hideForm('online')" >Unirse a partida</a>
                 <br>
                 <a class = "button-menu" onclick="hideForm('spectator')">Monitorizar partida</a>
+                <br>
+                <a class = "button-menu" href="/pygomas/menu/monitorize/viewstats">Estadísticas</a>
             </div>
             
             
@@ -191,11 +193,11 @@
                 <div class="form-troops">
                     <div style="margin-right: 40px;" class="subform-troops">
                         {% if playerNumber|length > 0 %}
-                            <div style="margin-bottom: 10px;"><label class="team">AXIS TEAM</label></div>
+                            <div style="margin-bottom: 10px;"><label class="team">EQUIPO EJE</label></div>
                             <br>
                             {% for i in playerNumber %}
                                 <div class = "div-troop">
-                                    <label style="width:5%;" for="AxisName{{i}}">Name</label>
+                                    <label style="width:5%;" for="AxisName{{i}}">Nombre</label>
                                     <input type="text" value="" name="AxisName{{i}}" id="AxisName{{i}}">
                                     <label style="width:5%;"for="AxisRank{{i}}">Rango</label>
                                     <select name="AxisRank{{i}}" id="AxisRank{{i}}">
@@ -213,7 +215,7 @@
                     
                     <div class="subform-troops">
                         {% if playerNumber|length > 0 %}
-                        <div style="margin-bottom: 10px;"><label class="team">ALLIED TEAM</label></div>
+                        <div style="margin-bottom: 10px;"><label class="team">EQUIPO ALIADO</label></div>
                         <br>
                             {% for i in playerNumber %}
                                 <div class = "div-troop">
@@ -238,7 +240,7 @@
             
             
             <form method="POST" class="div-locallaunch" name="launchLocal" style="display:none" >
-                <h2 class = "agentTitle">Local mode</h2>
+                <h2 class = "agentTitle">Modo local</h2>
                 <div class = "crearPartidaDiv">
                     
                     <div style="margin-bottom: 10px; white-space: nowrap;">
@@ -280,7 +282,7 @@
            
 
             <div class="div-onlinelaunch" style="display:none" name="onlineMode">
-                <h2 class = "agentTitle">Online mode</h2>
+                <h2 class = "agentTitle">Lanzar agente</h2>
                 <div name = "onlinelaunch-menu" class="onlinelaunch-menu">
                     <a class= "buttonSubForm" id="managerSubForm" onclick="hideSubForm('manager')">Manager</a>
                     <a class= "buttonSubForm" id="troopSubForm" onclick="hideSubForm('soldiers')">Soldados</a>
@@ -366,7 +368,7 @@
                             <input  type = "text" name="soldierName" >
                             </div>
                             <div>
-                            <label  for="team">Mapa</label>
+                            <label  for="team">Equipo</label>
                             <select  type = "text" name="team" >
                                 <option value = "axis">Axis</option>
                                 <option value = "allied">Allied</option>

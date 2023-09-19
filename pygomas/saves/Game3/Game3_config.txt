@@ -2,7 +2,7 @@ SERVER: desktop-5hmpkhv
 MAP_NAME: default
 NUM_PLAYERS: 6
 AGENTS: default
-MANAGER: opio
-SERVICE: opi
+MANAGER: cmanager
+SERVICE: cservice
 PORT: 8001
 TIME: 300

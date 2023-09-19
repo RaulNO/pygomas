@@ -1,0 +1,37 @@
+<html>
+<head>
+    <title>Estadísticas</title>
+</head>
+<body>
+        
+
+        <h1>Estadísticas de la partida "{{ save }}"</h1>
+   
+        <pre>
+            {{ content | safe }}
+        </pre>
+        
+        <div >
+            <a style = 
+            "
+            display: block;
+            width: 100px;
+            position: relative;
+            bottom: 10;
+            float: right;
+            padding: 10px;
+            border: 2px solid #222;
+            background-color: #444;
+            border-color: #444;
+            border-radius: 8px;
+            color: #fff;
+            font-size: 16px;
+            text-align: center;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            margin-bottom: 20px;
+             "
+            href="/pygomas/menu">Volver</a>
+    </div>
+</body>
+</html>

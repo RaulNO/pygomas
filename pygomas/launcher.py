@@ -3,6 +3,7 @@ from spade.agent import Agent
 from spade.behaviour import CyclicBehaviour
 from spade.behaviour import OneShotBehaviour
 from spade.message import Message
+
 from functions import *
 from controllers.home import *
 from pygomas.ontology import *
@@ -53,16 +54,17 @@ class Launcher(Agent):
 
             self.finished_event.set() ##Acaba la ejecución
 
-    class stopGame(OneShotBehaviour):
+    class killManager(OneShotBehaviour):
         manager = ""
         XMPPServer = ""
         print("Deteniendo partida...")
+
         async def run(self):
             msg = Message()
             msg.to = self.manager + "@" + self.XMPPServer
-            msg.set_metadata(PERFORMATIVE, MANAGEMENT_SERVICE)
+            msg.set_metadata(PERFORMATIVE, "stop")
             msg.body = 'kill'
-
+            print("ENVIAMOS ORDEN DE DETENCION AL MANAGER")
             await self.send(msg)
             print("Orden de finalizacion enviada")
 
@@ -74,7 +76,17 @@ class Launcher(Agent):
             msg.set_metadata(PERFORMATIVE, "get")
             msg.to = self.troop
             msg.body = json.dumps({NAME: 'allied', TEAM: 100})
-        
+
+    class informFinishedGame(OneShotBehaviour):
+        finished = False
+        async def run(self):
+            print("Esperando a finalizar la partida...")
+            msg = await self.receive(timeout=LONG_RECEIVE_WAIT)
+            if msg:
+                print("Partida termianda en el launcher: " + msg.body)
+                self.finished = True        
+                print("----------------------FINISHED----------------------")
+
     async def setup(self):
         print("Setup de launcher")
         
@@ -101,9 +113,13 @@ if __name__ == "__main__":
     launcher.web.add_get('/pygomas/menu/monitorize', lambda request: monitorizar(request, launcher), 'templates/monitorize.html')
     launcher.web.add_post('/pygomas/menu/monitorize', lambda request: monitorizar(request, launcher), 'templates/monitorize.html')
 
+    launcher.web.add_get('/pygomas/menu/monitorize/viewstats', lambda request: viewstats(request, launcher), 'templates/stats.html')
+
     launcher.web.add_get('/pygomas/getAgentList', lambda request: getAgentList(request, launcher), template=None)
 
     launcher.web.add_get('/pygomas/exit', lambda request: exit(request, launcher, driverChrome), template=None)
+
+    launcher.web.add_get('/pygomas/stopManager', lambda request: stopManager(request, launcher), template=None)
 
     launcher.web.start(hostname="localhost", port="8001")
 

@@ -16,7 +16,7 @@
                         
                         <thead >
                             <tr>
-                                <th class = "allied-title">Equipo Aliados</th>
+                                <th class = "allied-title">Equipo Aliado</th>
                             </tr>
                         </thead>
             
@@ -27,7 +27,6 @@
                                         <div class = "filas"> 
                                             <div class = "status"><img src="/static/icons/alive.png"></div>
                                             <div class = "name" value><span id="{{allied}}">{{ allied }}</span></div>
-                                            <div class = "input"><input type="text"></div>
                                         </div>
                                     </td>
                                 </tr>
@@ -53,7 +52,6 @@
                                         <div class = "filas"> 
                                             <div class = "status"><img src="/static/icons/alive.png"></div>
                                             <div class = "name"><span id="{{axis}}">{{ axis }}</span></div>
-                                            <div class = "input"><input type="text"></div>
                                         </div>
                                     </td>
                                 </tr>
@@ -63,14 +61,14 @@
                 </div>
             </div>
         </div>
+
         <div class="div-return">
-            <a href="/pygomas/menu" class="a-return">Volver</a>
+            <a class="stop" href="/pygomas/stopManager">Detener partida</a>
+            <a class = "monitorize-action" href="/pygomas/menu/monitorize/viewstats">Ver estadísticas</a>
+            <a class = "monitorize-action" href="/pygomas/menu" class="a-return">Volver</a>
         </div>  
-        
-        <form method="post">
-            <input type="text" name="dato" placeholder="Ingresa un dato">
-            <button type="submit">Enviar</button>
-        </form>
     </div>
+    
+    </body>
 </body>
 </html>

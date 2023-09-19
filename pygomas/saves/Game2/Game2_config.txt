@@ -1,8 +1,8 @@
 SERVER: desktop-5hmpkhv
-MAP_NAME: default
-NUM_PLAYERS: 4
-AGENTS: cmanager
-MANAGER: cmanager
-SERVICE: cservice
+MAP_NAME: NewMap2
+NUM_PLAYERS: 10
+AGENTS: NewTroops.json
+MANAGER: manager
+SERVICE: service
 PORT: 8001
-TIME: 300
+TIME: 600

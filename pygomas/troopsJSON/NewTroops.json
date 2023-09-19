@@ -1,0 +1,59 @@
+{
+    "host": "desktop-5hmpkhv",
+    "manager": "manager",
+    "service": "service",
+    "axis": [
+        {
+            "rank": "BDIMedic",
+            "name": "Axis1",
+            "password": "secret"
+        },
+        {
+            "rank": "BDIMedic",
+            "name": "Axis2",
+            "password": "secret"
+        },
+        {
+            "rank": "BDIMedic",
+            "name": "Axis3",
+            "password": "secret"
+        },
+        {
+            "rank": "BDIFieldOp",
+            "name": "Axis4",
+            "password": "secret"
+        },
+        {
+            "rank": "BDISoldier",
+            "name": "Axis5",
+            "password": "secret"
+        }
+    ],
+    "allied": [
+        {
+            "rank": "BDIFieldOp",
+            "name": "Allied1",
+            "password": "secret"
+        },
+        {
+            "rank": "BDISoldier",
+            "name": "Allied2",
+            "password": "secret"
+        },
+        {
+            "rank": "BDIFieldOp",
+            "name": "Allied3",
+            "password": "secret"
+        },
+        {
+            "rank": "BDIMedic",
+            "name": "Allied4",
+            "password": "secret"
+        },
+        {
+            "rank": "BDISoldier",
+            "name": "Allied5",
+            "password": "secret"
+        }
+    ]
+}

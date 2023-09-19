@@ -1,6 +1,0 @@
-[pGomas]
-pGomas_OBJECTIVE: 16 15
-pGomas_SPAWN_ALLIED: 12 1 23 3
-pGomas_SPAWN_AXIS: 12 27 22 29
-pGomas_COST_MAP: 32 32 Mapa prueba_cost.txt
-[pGomas]

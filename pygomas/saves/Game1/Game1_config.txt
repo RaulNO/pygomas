@@ -1,8 +1,8 @@
 SERVER: desktop-5hmpkhv
-MAP_NAME: Mapa_prueba
-NUM_PLAYERS: 4
-AGENTS: SOLDADOS_V1
-MANAGER: manaj
+MAP_NAME: NewMap2
+NUM_PLAYERS: 6
+AGENTS: default.json
+MANAGER: cmanager
 SERVICE: cservice
 PORT: 8001
 TIME: 300

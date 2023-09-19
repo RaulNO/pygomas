@@ -250,9 +250,9 @@ class Manager(AbstractAgent, Agent):
                 msg = await self.receive(timeout=LONG_RECEIVE_WAIT)
                 print("Message to stop received")
                 if(msg.body == "kill"):
-                    print("Stopping game...")
-                    self.agent.inform_game_finished("AXIS!", self)
-                    print("Game stopped")
+                    print("Stopping game by user request...")
+                    await self.agent.inform_game_finished("AXIS!", self)
+                    
 
         
 
@@ -287,7 +287,9 @@ class Manager(AbstractAgent, Agent):
         template = Template()
         template.set_metadata(PERFORMATIVE, PERFORMATIVE_INIT)
         self.add_behaviour(InitBehaviour(), template)
-        self.add_behaviour(killManager())
+        template2 = Template()
+        template2.set_metadata(PERFORMATIVE, "stop")
+        self.add_behaviour(killManager(), template2)
 
         await self.create_objectives()  # We need to do this when online
 
@@ -1009,6 +1011,16 @@ class Manager(AbstractAgent, Agent):
                 pass
 
         self.print_statistics(winner_team)
+
+        msg2 = Message()
+        msg2.set_metadata(PERFORMATIVE, 'finished_game')
+        msg2.body = "GAME FINISHED!! Winner Team: " + str(winner_team)
+        msg2.to = "launcher@desktop-5hmpkhv"
+
+        try:
+            await behaviour.send(msg2)
+        except:
+            pass    
 
         await self.stop()
 

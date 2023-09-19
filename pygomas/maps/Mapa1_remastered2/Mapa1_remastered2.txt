@@ -1,6 +1,0 @@
-[pGomas]
-pGomas_OBJECTIVE: 14 14
-pGomas_SPAWN_ALLIED: 20 11 27 17
-pGomas_SPAWN_AXIS: 4 3 5 8
-pGomas_COST_MAP: 32 32 Mapa1_remastered2_cost.txt
-[pGomas]

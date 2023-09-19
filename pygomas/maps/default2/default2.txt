@@ -1,6 +1,0 @@
-[pGomas]
-pGomas_OBJECTIVE: 15 14
-pGomas_SPAWN_ALLIED: 1 26 5 30
-pGomas_SPAWN_AXIS: 26 1 30 5
-pGomas_COST_MAP: 32 32 default2_cost.txt
-[pGomas]

@@ -1,0 +1,6 @@
+[pGomas]
+pGomas_OBJECTIVE: 20 13
+pGomas_SPAWN_ALLIED: 12 25 17 29
+pGomas_SPAWN_AXIS: 13 3 18 7
+pGomas_COST_MAP: 32 32 NewMap2_cost.txt
+[pGomas]

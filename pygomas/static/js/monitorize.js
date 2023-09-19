@@ -4,7 +4,7 @@ document.addEventListener("DOMContentLoaded", function() {
   var InitAlliedList = document.getElementById("alliedList").dataset.valor;
   var InitAxisList = document.getElementById("axisList").dataset.valor;
 
-  setInterval(function(){
+  var intervalId = setInterval(function(){
     $.ajax({
         url: '/pygomas/getAgentList',
         type: 'GET',
@@ -21,6 +21,11 @@ document.addEventListener("DOMContentLoaded", function() {
         console.log(axisSoldiersList);
         console.log(alliedSoldiersList);
 
+        if (data.finishedGame) {
+          console.log("Detenemos el AJAX");
+          clearInterval(intervalId);
+        }
+
         actualizarEstado(compareList(InitAlliedList, alliedSoldiersList ));
         actualizarEstado(compareList(InitAxisList, axisSoldiersList));
 
@@ -31,7 +36,7 @@ document.addEventListener("DOMContentLoaded", function() {
     });
   }, 1000);
     
-  });
+});
 
   function actualizarEstado(deadList){
     var spanElement;
